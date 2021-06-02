@@ -1,0 +1,4 @@
+[submodule "kinova-ros"]
+	path = kinova-ros
+	url = https://github.com/RobotnikAutomation/kinova-ros
+	branch = develop
