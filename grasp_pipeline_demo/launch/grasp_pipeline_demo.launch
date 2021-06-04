@@ -1,0 +1,31 @@
+<launch>
+
+  <!-- Launch rviz.launch before running this demo to see visalizations -->
+  <!-- GDB Debug Arguments -->
+  <arg name="debug" default="false" />
+  <arg unless="$(arg debug)" name="launch_prefix" value="" />
+  <arg     if="$(arg debug)" name="launch_prefix"
+           value="gdb -x $(find moveit_grasps)/launch/gdb_settings.gdb --ex run --args" />
+
+  <!-- Verbose mode -->
+  <arg name="verbose" default="false" />
+  <arg unless="$(arg verbose)" name="command_args" value="" />
+  <arg     if="$(arg verbose)" name="command_args" value="--verbose" />
+
+  <!-- Start the demo -->
+  <node name="grasp_pipeline_demo" launch-prefix="$(arg launch_prefix)" pkg="grasp_pipeline_demo"
+  type="grasp_pipeline_demo_node" output="screen" args="$(arg command_args)">
+    <param name="ee_group_name" value="gripper"/>
+    <param name="planning_group_name" value="arm"/>
+    <rosparam command="load" file="$(find grasp_pipeline_demo)/config_robot/j2s6s200_grasp_data.yaml"/>
+    <rosparam command="load" file="$(find grasp_pipeline_demo)/config_robot/objects_config.yaml"/>
+    <rosparam command="load" file="$(find grasp_pipeline_demo)/config/moveit_grasps_config.yaml"/>
+  </node>
+
+  <!-- Planning Functionality -->
+  <arg name="planner" default="ompl" />
+  <include ns="grasp_pipeline_demo" file="$(find j2s6s200_moveit_config)/launch/planning_pipeline.launch.xml">
+    <arg name="pipeline" value="$(arg planner)" />
+  </include>
+
+</launch>

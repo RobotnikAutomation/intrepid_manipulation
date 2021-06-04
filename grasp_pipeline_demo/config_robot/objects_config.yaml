@@ -1,0 +1,22 @@
+table:
+  frame_id: world
+  geometry:
+    box:
+      height: 0.40
+      width: 0.50
+      length: 0.50
+  pose: [[0.5,0.0,0.20],[0.0,0.0,0.0]] # xyz, rpy
+
+pick_target:
+  frame_id: world
+  geometry:
+    box:
+      height: 0.05
+      width: 0.03
+      length: 0.03
+  pose: [[0.4,0.0,0.425],[0.0,0.0,0.0]] # xyz, rpy
+
+
+objects:
+  - table
+  - pick_target
