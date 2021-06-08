@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package>
+  <name>intrepid_robot_description</name>
+  <version>1.1.2</version>
+  <description> URDF description of the Intrepid j2s6200 robot</description>
+
+  <maintainer email="mbeneyto@robotnik.es">Maria Beneyto</maintainer> 
+ 
+  <license>BSD</license>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+  <build_depend>urdf</build_depend>
+  <build_depend>xacro</build_depend>
+  <build_depend>robotnik_sensors</build_depend>
+  <build_depend>realsense_gazebo_plugin</build_depend>
+  
+
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>urdf</run_depend>
+  <run_depend>xacro</run_depend>
+  <run_depend>robotnik_sensors</run_depend>
+  <run_depend>realsense_gazebo_plugin</run_depend> 
+
+</package>
+
+
+

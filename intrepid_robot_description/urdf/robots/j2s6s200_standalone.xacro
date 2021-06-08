@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!-- j2s6_2 refers to jaco v2 6DOF spherical 2fingers -->
+
+
+<robot xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:gazebo="http://playerstage.sourceforge.net/gazebo/xmlschema/#gz"
+    xmlns:model="http://playerstage.sourceforge.net/gazebo/xmlschema/#model"
+	xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+	xmlns:body="http://playerstage.sourceforge.net/gazebo/xmlschema/#body"
+    xmlns:geom="http://playerstage.sourceforge.net/gazebo/xmlschema/#geom"
+    xmlns:joint="http://playerstage.sourceforge.net/gazebo/xmlschema/#joint"
+	xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+	xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+	xmlns:rendering="http://playerstage.sourceforge.net/gazebo/xmlschema/#rendering"
+    xmlns:renderable="http://playerstage.sourceforge.net/gazebo/xmlschema/#renderable"
+    xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics"
+	xmlns:xacro="http://www.ros.org/wiki/xacro" name="j2s6s200">
+
+
+  <xacro:arg name="prefix" default="j2s6s200_"/>
+  <xacro:property name="prefix" value="$(arg prefix)" />
+
+  <xacro:property name="PI" value="3.1415926535897931"/>
+
+  <xacro:include filename="$(find kinova_description)/urdf/j2s6s200.xacro"/>
+  <xacro:include filename="$(find intrepid_robot_description)/urdf/structures/realsense2vgc10_support.urdf.xacro" />
+  <xacro:include filename="$(find robotnik_sensors)/urdf/all_sensors.urdf.xacro" />
+
+    <!-- Intel Realsense support-->
+  <xacro:realsense2vgc10_support prefix="$(arg prefix)wrist_rgbd_support" parent="$(arg prefix)link_6">
+      <origin xyz="0.0 0.0 0.0" rpy="${pi} 0 0.0"/>
+  </xacro:realsense2vgc10_support>
+
+  <!-- Intel Realsense -->
+  <xacro:sensor_intel_d435 prefix="$(arg prefix)wrist_rgbd" parent="$(arg prefix)wrist_rgbd_support_second_link" prefix_topic="wrist_rgbd" use_nominal_extrinsics="true" >
+        <origin xyz="0.015 0.0 0.01" rpy="${pi} ${-pi/2} 0"/>
+  </xacro:sensor_intel_d435>
+
+  <link name="root"/>
+
+  <!-- for gazebo -->
+  <link name="world"/>
+  
+  <joint name="connect_root_and_world" type="fixed">
+    <child link="root" />
+    <parent link="world" />
+    <origin xyz="0 0 0" rpy="0 0 0" />    
+  </joint> 
+
+  <xacro:property name="robot_root" value="root" />
+
+  <xacro:j2s6s200  base_parent="${robot_root}"/>
+
+</robot>
