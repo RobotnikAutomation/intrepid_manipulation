@@ -2,3 +2,18 @@
 	path = kinova-ros
 	url = https://github.com/RobotnikAutomation/kinova-ros
 	branch = develop
+[submodule "moveit_grasps"]
+	path = moveit_grasps
+	url = https://github.com/ros-planning/moveit_grasps
+	branch = melodic-devel
+[submodule "rviz_visual_tools"]
+	path = rviz_visual_tools
+	url = https://github.com/PickNikRobotics/rviz_visual_tools
+[submodule "robotnik_sensors"]
+	path = robotnik_sensors
+	url = https://github.com/RobotnikAutomation/robotnik_sensors
+	branch = melodic-devel
+[submodule "realsense_gazebo_plugin"]
+	path = realsense_gazebo_plugin
+	url = https://github.com/RobotnikAutomation/realsense_gazebo_plugin
+	branch = melodic-devel
