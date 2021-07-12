@@ -59,6 +59,13 @@
     <arg name="is7dof" value="$(arg is7dof)"/>
   </include>
 
+<!--   <param name="object_description" command="$(find xacro)/xacro '$(find deep_grasp_task)/urdf/objects/cylinder.urdf.xacro'"/>
+  <node name="spawn_gazebo_object" pkg="gazebo_ros" type="spawn_model"
+     args="-urdf -param object_description -model cylinder -x 0.0 -y -0.50 -z 0.125" respawn="false" output="screen" /> -->
+
+
+  <node name="spawn_gazebo_object" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-file '$(find intrepid_robot_description)/urdf/objects/door_handle.sdf' -sdf -x 0.0 -y -0.50 -z 0.00  -model door_handle"/>
   <!-- rqt launch file -->
   <!--  
   <include file="$(find kinova_control)/launch/$kinova_rqt.launch">
