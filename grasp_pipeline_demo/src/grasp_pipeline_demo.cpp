@@ -120,6 +120,9 @@ public:
     
     // Reset planning scene monitor
     planning_scene_monitor_.reset(new planning_scene_monitor::PlanningSceneMonitor("robot_description"));
+
+    planning_scene_monitor_->startStateMonitor("/j2s6s200/joint_states");
+
     if (!planning_scene_monitor_->getPlanningScene())
     {
       ROS_ERROR_STREAM_NAMED(LOGNAME, "Planning scene not configured");

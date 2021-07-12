@@ -7,6 +7,8 @@
   <arg     if="$(arg debug)" name="launch_prefix"
            value="gdb -x $(find moveit_grasps)/launch/gdb_settings.gdb --ex run --args" />
 
+  <arg name="joint_states_ns" default="/j2s6s200/joint_states"/>
+  
   <!-- Verbose mode -->
   <arg name="verbose" default="false" />
   <arg unless="$(arg verbose)" name="command_args" value="" />
@@ -20,6 +22,7 @@
     <rosparam command="load" file="$(find grasp_pipeline_demo)/config_robot/j2s6s200_grasp_data.yaml"/>
     <rosparam command="load" file="$(find grasp_pipeline_demo)/config_robot/objects_config.yaml"/>
     <rosparam command="load" file="$(find grasp_pipeline_demo)/config/moveit_grasps_config.yaml"/>
+    <remap from="/joint_states" to="$(arg joint_states_ns)" />
   </node>
 
   <!-- Planning Functionality -->
