@@ -27,13 +27,13 @@
   <xacro:include filename="$(find robotnik_sensors)/urdf/all_sensors.urdf.xacro" />
 
     <!-- Intel Realsense support-->
-  <xacro:realsense2vgc10_support prefix="$(arg prefix)wrist_rgbd_support" parent="$(arg prefix)link_6">
-      <origin xyz="0.0 0.0 0.0" rpy="${pi} 0 0.0"/>
+  <xacro:realsense2vgc10_support prefix="$(arg prefix)wrist_rgbd_support" parent="$(arg prefix)link_5">
+      <origin xyz="0.001 0.093 0.000" rpy="1.571 3.142 -3.142"/>
   </xacro:realsense2vgc10_support>
 
   <!-- Intel Realsense -->
-  <xacro:sensor_intel_d435 prefix="$(arg prefix)wrist_rgbd" parent="$(arg prefix)wrist_rgbd_support_second_link" prefix_topic="wrist_rgbd" use_nominal_extrinsics="true" >
-        <origin xyz="0.015 0.0 0.01" rpy="${pi} ${-pi/2} 0"/>
+  <xacro:sensor_intel_d435 prefix="$(arg prefix)wrist_rgbd" parent="$(arg prefix)wrist_rgbd_support_second_link" prefix_topic="camera" use_nominal_extrinsics="true" >
+        <origin xyz="0.014 0.0 0.0" rpy="${pi} ${-pi/2} 0"/>
   </xacro:sensor_intel_d435>
 
   <link name="root"/>
