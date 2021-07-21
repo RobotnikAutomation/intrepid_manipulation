@@ -17,3 +17,9 @@
 	path = moveit_grasps
 	url = https://github.com/RobotnikAutomation/moveit_grasps
 	branch = melodic-devel
+[submodule "deep_grasp_demo"]
+	path = deep_grasp_demo
+	url = https://github.com/RobotnikAutomation/deep_grasp_demo
+[submodule "moveit_task_constructor"]
+	path = moveit_task_constructor
+	url = https://github.com/Avdbergnmf/moveit_task_constructor
