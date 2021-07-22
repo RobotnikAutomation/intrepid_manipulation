@@ -23,3 +23,6 @@
 [submodule "moveit_task_constructor"]
 	path = moveit_task_constructor
 	url = https://github.com/Avdbergnmf/moveit_task_constructor
+[submodule "rcomponent"]
+	path = rcomponent
+	url = https://github.com/RobotnikAutomation/rcomponent
