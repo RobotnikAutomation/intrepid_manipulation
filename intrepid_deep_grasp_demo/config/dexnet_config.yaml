@@ -1,0 +1,4 @@
+# file path to neural network weights and model config
+model_name: "GQCNN-4.0-PJ"
+model_dir: "/home/maria/PROJECTS/deep_learning_ws/src/dex-net/models/GQCNN-4.0-PJ"
+model_params: "/home/maria/PROJECTS/intrepid_ws/src/intrepid_manipulation/intrepid_deep_grasp_demo/config/dex-net_4.0_pj.yaml"
