@@ -24,7 +24,7 @@
   <arg unless="$(arg load_images)" name="depth_img_topic" value="/camera/depth/image_rect" doc="topic name for raw depth image"/>
 
   <!-- Run MTC pick and place -->
-  <node name="mtc_tutorial" pkg="intrepid_deep_grasp_demo" type="intrepid_deep_grasp_demo_node" output="screen">
+  <node name="deep_grasp_demo" pkg="intrepid_deep_grasp_demo" type="intrepid_deep_grasp_demo_node" output="screen">
       <param name="execute" value="true" />
       <param name="action_name" value="$(arg action_name)"/>
       <rosparam command="load" file="$(arg robot_config)"/>

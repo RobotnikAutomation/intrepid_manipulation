@@ -14,15 +14,17 @@
 
   <!-- file paths -->
   <arg name="robot_config" value="$(find intrepid_deep_grasp_demo)/config/jaco_description.yaml" doc="file path to robot configuration"/>
+  <arg name="scene_config" value="$(find intrepid_deep_grasp_demo)/config/objects_config.yaml" doc="file path to environment configuration"/>
   <arg name="camera_config" value="$(find intrepid_deep_grasp_demo)/config/camera_calib/gazebo_camera.yaml" doc="file path to camera configuration"/>
   <arg if="$(arg load_cloud)" name="path_to_pcd_file" value="$(find moveit_task_constructor_gpd)/data/pointclouds/cylinder.pcd" doc="path to point cloud file"/>
   <arg name="path_to_gpd_config" value="$(find intrepid_deep_grasp_demo)/config/gpd_config.yaml" doc="path to GPD config and gripper params file"/>
 
   <!-- Run MTC pick and place -->
-  <node name="mtc_tutorial" pkg="intrepid_deep_grasp_demo" type="intrepid_deep_grasp_demo_node" output="screen">
+  <node name="deep_grasp_demo" pkg="intrepid_deep_grasp_demo" type="intrepid_deep_grasp_demo_node" output="screen">
       <param name="execute" value="true" />
       <param name="action_name" value="$(arg action_name)"/>
       <rosparam command="load" file="$(arg robot_config)"/>
+      <rosparam command="load" file="$(arg scene_config)"/>
       <remap from="/joint_states" to="$(arg joint_states_ns)" />
   </node>
 
