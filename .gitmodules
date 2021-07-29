@@ -22,7 +22,8 @@
 	url = https://github.com/RobotnikAutomation/deep_grasp_demo
 [submodule "moveit_task_constructor"]
 	path = moveit_task_constructor
-	url = https://github.com/Avdbergnmf/moveit_task_constructor
+	url = https://github.com/RobotnikAutomation/moveit_task_constructor
+	branch = master
 [submodule "rcomponent"]
 	path = rcomponent
 	url = https://github.com/RobotnikAutomation/rcomponent
