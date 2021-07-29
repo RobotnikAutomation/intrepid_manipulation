@@ -1,5 +1,5 @@
-#ifndef _COMPONENT_SORTING__POSE_BUILDER_H_
-#define _COMPONENT_SORTING__POSE_BUILDER_H_
+#ifndef _INTREPID_DEEP_GRASP_DEMO__POSE_BUILDER_H_
+#define _INTREPID_DEEP_GRASP_DEMO__POSE_BUILDER_H_
 
 #include <ros/ros.h>
 
@@ -40,4 +40,4 @@ class Pose_Builder
     geometry_msgs::PoseStamped pose_stamped_msg; // MoveIt Object Pose message
 };
 
-#endif // _COMPONENT_SORTING__POSE_BUILDER_H_
+#endif // _INTREPID_DEEP_GRASP_DEMO__POSE_BUILDER_H_
