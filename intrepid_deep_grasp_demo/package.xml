@@ -28,6 +28,7 @@
   <depend>rcomponent</depend>
   <depend>moveit_visual_tools</depend>
   <depend>rviz_visual_tools</depend>
+  <depend>intrepid_manipulation_msgs</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
