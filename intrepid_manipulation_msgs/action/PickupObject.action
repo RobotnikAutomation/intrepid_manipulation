@@ -1,0 +1,16 @@
+# An action to pick and place objects
+
+# The name of the location from where to scan holder position
+geometry_msgs/PoseStamped pick_position
+geometry_msgs/PoseStamped place_position
+string object_type
+---
+# If scanning was succesful
+bool success
+
+# Some informational message
+string message
+---
+
+# The internal state that the scan action currently is in
+string state
