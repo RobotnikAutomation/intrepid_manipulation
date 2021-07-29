@@ -70,7 +70,7 @@
 #include <iostream>
 #include <vector>
 
-namespace deep_grasp_task
+namespace intrepid_deep_grasp_demo
 {
 using namespace moveit::task_constructor;
 
@@ -83,6 +83,8 @@ public:
   void loadParameters();
 
   void init();
+
+  void preemptTask();
 
   bool plan();
 
@@ -131,4 +133,4 @@ private:
   geometry_msgs::Pose place_pose_;
   double place_surface_offset_;
 };
-}  // namespace deep_grasp_task
+}  // namespace intrepid_deep_grasp_demo

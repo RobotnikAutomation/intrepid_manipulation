@@ -1,14 +1,12 @@
 #include <intrepid_deep_grasp_demo/deep_grasp_demo.h>
 
-/* int main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "component_sorting");
+  ros::init(argc, argv, "deep_grasp_demo");
   ros::NodeHandle n;
 
-  ComponentSorting cs(n);
-  cs.asyncStart();
+  DeepGraspDemo dgd(n);
+  dgd.asyncStart();
 
-//  ros::Duration(10).sleep();
-//  cs.gripper_on();
   ros::spin();
-} */
+}

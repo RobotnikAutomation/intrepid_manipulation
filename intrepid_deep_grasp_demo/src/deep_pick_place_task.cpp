@@ -38,7 +38,7 @@
 #include <intrepid_deep_grasp_demo/deep_pick_place_task.h>
 #include <rosparam_shortcuts/rosparam_shortcuts.h>
 
-namespace deep_grasp_task
+namespace intrepid_deep_grasp_demo
 {
 constexpr char LOGNAME[] = "pick_place_task";
 DeepPickPlaceTask::DeepPickPlaceTask(const std::string& task_name, const ros::NodeHandle& nh)
@@ -452,6 +452,12 @@ bool DeepPickPlaceTask::plan()
   return true;
 }
 
+void DeepPickPlaceTask::preemptTask()
+{
+  ROS_INFO_NAMED(LOGNAME, "Preemting task");
+  task_->preempt();
+}
+
 bool DeepPickPlaceTask::execute()
 { 
   ROS_INFO_NAMED(LOGNAME, "Executing solution trajectory");
@@ -469,4 +475,4 @@ bool DeepPickPlaceTask::execute()
 
   return true;
 }
-}  // namespace deep_grasp_task
+}  // namespace intrepid_deep_grasp_demo
