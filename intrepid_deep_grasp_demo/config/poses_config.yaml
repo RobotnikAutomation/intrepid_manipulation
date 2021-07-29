@@ -1,0 +1,162 @@
+positions_to_use:
+  - robot_left
+  - robot_center
+  - robot_right
+  - table_right
+  - table_center
+  - table_left
+
+approach_poses:
+
+  robot_center:
+    frame_id: robot_center_holder_approach
+    pose: [[0.0, 0.0, 0.0],[0.0, 0.0, 0.0]] # xyz, rpy
+
+  robot_right:
+    frame_id: robot_right_holder_approach
+    pose: [[0.0, 0.0, 0.0],[0.0, 0.0, 0.0]] # xyz, rpy
+
+  robot_left:
+    frame_id: robot_left_holder_approach
+    pose: [[0.0, 0.0, 0.0],[0.0, 0.0, 0.0]] # xyz, rpy  
+ 
+  table_center:
+    frame_id: table_center_holder_approach
+    pose: [[0.0, 0.0, 0.0],[0.0, 0.0, 0.0]] # xyz, rpy
+
+  table_right:
+    frame_id: table_right_holder_approach
+    pose: [[0.0, 0.0, 0.0],[0.0, 0.0, 0.0]] # xyz, rpy
+
+  table_left:
+    frame_id: table_left_holder_approach
+    pose: [[0.0, 0.0, 0.0],[0.0, 0.0, 0.0]] # xyz, rpy  
+
+place_poses:
+
+  robot_center:
+    frame_id: robot_center_holder_qr
+    pose: [[0.0, 0.0, 0.380],[0.0, +3.14159, -1.57080]]
+
+  robot_right:
+    frame_id: robot_right_holder_qr
+    pose: [[0.0, 0.0, 0.380],[0.0, +3.14159, -1.57080]]
+  
+  robot_left:
+    frame_id: robot_left_holder_qr
+    pose: [[0.0, 0.0, 0.380],[0.0, +3.14159, -1.57080]]  
+
+  table_center:
+    frame_id: table_center_holder_qr
+    pose: [[0.0, 0.0, 0.380],[0.0, +3.14159, -1.57080]]
+
+  table_right:
+    frame_id: table_right_holder_qr
+    pose: [[0.0, 0.0, 0.380],[0.0, +3.14159, -1.57080]]
+  
+  table_left:
+    frame_id: table_left_holder_qr
+    pose: [[0.0, 0.0, 0.380],[0.0, +3.14159, -1.57080]]  
+
+pre_place_poses:
+
+  robot_center:
+    frame_id: robot_center_holder_qr
+    pose: [[0.0, 0.0, 0.57],[0.0, +3.14159, -1.57080]]
+
+  robot_right:
+    frame_id: robot_right_holder_qr
+    pose: [[0.0, 0.0, 0.57],[0.0, +3.14159, -1.57080]]
+  
+  robot_left:
+    frame_id: robot_left_holder_qr
+    pose: [[0.0, 0.0, 0.57],[0.0, +3.14159, -1.57080]]  
+
+  table_center:
+    frame_id: table_center_holder_qr
+    pose: [[0.0, 0.0, 0.46],[0.0, +3.14159, -1.57080]]
+
+  table_right:
+    frame_id: table_right_holder_qr
+    pose: [[0.0, 0.0, 0.46],[0.0, +3.14159, -1.57080]]
+  
+  table_left:
+    frame_id: table_left_holder_qr
+    pose: [[0.0, 0.0, 0.46],[0.0, +3.14159, -1.57080]]      
+
+pick_poses:
+
+  robot_center:
+    frame_id: box_grab_qr
+    pose: [[0.0, 0.0, 0.134],[0.0, +3.14159, -1.57080]]
+
+  robot_right:
+    frame_id: box_grab_qr
+    pose: [[0.0, 0.0, 0.134],[0.0, +3.14159, -1.57080]]
+  
+  robot_left:
+    frame_id: box_grab_qr
+    pose: [[0.0, 0.0, 0.134],[0.0, +3.14159, -1.57080]] 
+
+  table_center:
+    frame_id: box_grab_qr
+    pose: [[0.0, 0.0, 0.134],[0.0, +3.14159, -1.57080]]
+
+  table_right:
+    frame_id: box_grab_qr
+    pose: [[0.0, 0.0, 0.134],[0.0, +3.14159, -1.57080]]
+  
+  table_left:
+    frame_id: box_grab_qr
+    pose: [[0.0, 0.0, 0.134],[0.0, +3.14159, -1.57080]] 
+
+pre_pick_poses:
+
+  robot_center:
+    frame_id: box_grab_qr
+    pose: [[0.0, 0.0, 0.215],[0.0, +3.14159, -1.57080]]
+
+  robot_right:
+    frame_id: box_grab_qr
+    pose: [[0.0, 0.0, 0.215],[0.0, +3.14159, -1.57080]]
+  
+  robot_left:
+    frame_id: box_grab_qr
+    pose: [[0.0, 0.0, 0.215],[0.0, +3.14159, -1.57080]] 
+
+  table_center:
+    frame_id: box_grab_qr
+    pose: [[0.0, 0.0, 0.215],[0.0, +3.14159, -1.57080]]
+
+  table_right:
+    frame_id: box_grab_qr
+    pose: [[0.0, 0.0, 0.215],[0.0, +3.14159, -1.57080]]
+  
+  table_left:
+    frame_id: box_grab_qr
+    pose: [[0.0, 0.0, 0.215],[0.0, +3.14159, -1.57080]] 
+
+
+#holder_qr_frames:
+#  robot_center:
+#    frame_id: robot_center_holder_qr
+#
+#  robot_right:
+#    frame_id: robot_right_holder_qr
+#
+#  robot_left:
+#    frame_id: robot_left_holder_qr
+#
+#  table_center:
+#    frame_id: table_center_holder_qr
+#
+#  table_right:
+#    frame_id: table_right_holder_qr
+#  
+#  table_left:
+#    frame_id: table_left_holder_qr
+
+
+
+
+
