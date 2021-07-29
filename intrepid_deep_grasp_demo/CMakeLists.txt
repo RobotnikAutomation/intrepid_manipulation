@@ -24,6 +24,7 @@ find_package(catkin REQUIRED COMPONENTS
   rcomponent
   moveit_visual_tools
   rviz_visual_tools
+  intrepid_manipulation_msgs
 )
 
 ###################################
@@ -48,7 +49,7 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_library(intrepid_deep_grasp_demo
+add_library(intrepid_deep_grasp_demo_lib
  src/object_builder.cpp
  src/pose_builder.cpp
 
@@ -65,6 +66,7 @@ add_dependencies(intrepid_deep_grasp_demo_node ${${PROJECT_NAME}_EXPORTED_TARGET
 
 # Specify libraries to link a library or executable target against
 target_link_libraries(intrepid_deep_grasp_demo_node
+                      intrepid_deep_grasp_demo_lib
                       ${catkin_LIBRARIES}
 )
 
@@ -75,7 +77,7 @@ target_link_libraries(intrepid_deep_grasp_demo_node
 # Mark executables and/or libraries for installation
 install(
   TARGETS
-    intrepid_deep_grasp_demo
+    intrepid_deep_grasp_demo_node
   ARCHIVE DESTINATION
     ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION
