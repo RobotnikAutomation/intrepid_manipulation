@@ -27,3 +27,6 @@
 [submodule "rcomponent"]
 	path = rcomponent
 	url = https://github.com/RobotnikAutomation/rcomponent
+[submodule "robotnik_pad"]
+	path = robotnik_pad
+	url = https://github.com/RobotnikAutomation/robotnik_pad
