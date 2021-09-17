@@ -91,7 +91,7 @@ void DeepPickPlaceTask::loadParameters()
 }
 
 void DeepPickPlaceTask::init()
-{
+{ 
   ROS_INFO_NAMED(LOGNAME, "Initializing task pipeline");
   const std::string object = object_name_;
 
@@ -450,6 +450,11 @@ bool DeepPickPlaceTask::plan()
     return false;
   }
   return true;
+}
+
+void DeepPickPlaceTask::displayPlan()
+{
+	task_->introspection().publishSolution(*task_->solutions().front());
 }
 
 void DeepPickPlaceTask::preemptTask()

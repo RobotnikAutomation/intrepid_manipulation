@@ -48,6 +48,9 @@
 #include <moveit/robot_model/robot_model.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
+// Visualization
+#include <moveit_visual_tools/moveit_visual_tools.h>
+
 // MTC
 #include <moveit/task_constructor/task.h>
 #include <moveit/task_constructor/stages/compute_ik.h>
@@ -85,6 +88,8 @@ public:
   void init();
 
   void preemptTask();
+
+  void displayPlan();
 
   bool plan();
 
