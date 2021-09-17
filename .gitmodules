@@ -30,3 +30,6 @@
 [submodule "robotnik_pad"]
 	path = robotnik_pad
 	url = https://github.com/RobotnikAutomation/robotnik_pad
+[submodule "robotnik_msgs"]
+	path = robotnik_msgs
+	url = https://github.com/RobotnikAutomation/robotnik_msgs
