@@ -1,0 +1,11 @@
+sensors:
+  - sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater
+    image_topic: /camera/depth/image_rect_raw
+    queue_size: 5
+    near_clipping_plane_distance: 0.01
+    far_clipping_plane_distance: 3.0
+    shadow_threshold: 0.2
+    padding_scale: 1 #scales this padding to be larger the farther away objects are
+    padding_offset: 0.01 #adds an extra layer to the collision model with the specified thickness given in m 
+    max_update_rate: 10.0
+    filtered_cloud_topic: octomap_filtered_cloud
