@@ -33,3 +33,7 @@
 [submodule "robotnik_msgs"]
 	path = robotnik_msgs
 	url = https://github.com/RobotnikAutomation/robotnik_msgs
+[submodule "realsense-ros"]
+	path = realsense-ros
+	url = https://github.com/IntelRealSense/realsense-ros
+	branch = development
