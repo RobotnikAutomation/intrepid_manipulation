@@ -52,6 +52,25 @@ int main(int argc, char** argv)
     constraints.orientation_constraints.push_back(orientation);
     constraints_storage_->addConstraints(constraints, robot, group);
 
+    constraints = moveit_msgs::Constraints();
+    constraints.name = "shoulder_elbow";
+    moveit_msgs::JointConstraint joint;
+    constraints.joint_constraints.clear();
+    joint.joint_name = "j2s6s200_joint_3";
+    joint.position = 0.3316;
+    joint.tolerance_below = 0.0;
+    joint.tolerance_above = 2.4839;
+    joint.weight = 100;
+    constraints.joint_constraints.push_back(joint);
+    joint.joint_name = "j2s6s200_joint_1";
+    joint.position = 0;
+    joint.tolerance_below = 3.1415; 
+    joint.tolerance_above = 0.9893; 
+    joint.weight = 100;
+    constraints.joint_constraints.push_back(joint);
+    constraints_storage_->addConstraints(constraints, robot, group);
+    
+
 
   constraints_storage_->getKnownConstraints(names, robot, group);
   ROS_INFO_STREAM("Stored constraints after update " << names.size());
