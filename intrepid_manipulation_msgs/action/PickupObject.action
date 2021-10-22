@@ -1,8 +1,7 @@
-# An action to pick and place objects
+# An action to pick objects using deep learning 
 
 # The name of the location from where to scan holder position
 geometry_msgs/PoseStamped pick_position
-geometry_msgs/PoseStamped place_position
 string object_type
 ---
 # If scanning was succesful
