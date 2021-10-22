@@ -6,7 +6,7 @@
   <param name="/pick_place_demo/arm/kinematics_solver_timeout" value="0.05" />
 
   <!-- By default, we do not start a database (it can be large) -->
-  <arg name="db" default="false" />
+  <arg name="db" default="true" />
   <!-- Allow user to specify database location -->
   <arg name="db_path" default="$(find intrepid_moveit_config)/default_warehouse_mongo_db" />
 
