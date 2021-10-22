@@ -23,5 +23,4 @@ pick_target:
   pose: [[-0.03, -2.0, 0.05],[0.0, 0.0, 0.0]] # xyz, rpy
 
 objects:
-  - table
   - pick_target
