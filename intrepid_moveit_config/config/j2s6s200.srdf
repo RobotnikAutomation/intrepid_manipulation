@@ -37,12 +37,12 @@
         <joint name="j2s6s200_joint_6" value="0" />
     </group_state>
     <group_state name="Home" group="arm">
-        <joint name="j2s6s200_joint_1" value="-1.57456" />
-        <joint name="j2s6s200_joint_2" value="2.61971" />
-        <joint name="j2s6s200_joint_3" value="0.434007" />
-        <joint name="j2s6s200_joint_4" value="-0.00320" />
-        <joint name="j2s6s200_joint_5" value="3.713911" />
-        <joint name="j2s6s200_joint_6" value="-3.13664" />
+        <joint name="j2s6s200_joint_1" value="-1.64311" />
+        <joint name="j2s6s200_joint_2" value="2.83628" />
+        <joint name="j2s6s200_joint_3" value="0.58556" />
+        <joint name="j2s6s200_joint_4" value="-0.05199" />
+        <joint name="j2s6s200_joint_5" value="3.99619" />
+        <joint name="j2s6s200_joint_6" value="-0.04488" />
     </group_state>
 <!--     <group_state name="Look" group="arm">
         <joint name="j2s6s200_joint_1" value="-1.48792" />
@@ -59,6 +59,22 @@
         <joint name="j2s6s200_joint_4" value="-0.02056" />
         <joint name="j2s6s200_joint_5" value="4.60978" />
         <joint name="j2s6s200_joint_6" value="-3.04796" />
+    </group_state>
+    <group_state name="Place_inter" group="arm">
+        <joint name="j2s6s200_joint_1" value="4.75173" />
+        <joint name="j2s6s200_joint_2" value="3.05192" />
+        <joint name="j2s6s200_joint_3" value="1.40840" />
+        <joint name="j2s6s200_joint_4" value="6.28238" />
+        <joint name="j2s6s200_joint_5" value="4.43366" />
+        <joint name="j2s6s200_joint_6" value="12.55657" />
+    </group_state>
+    <group_state name="Place_final" group="arm">
+        <joint name="j2s6s200_joint_1" value="6.363213" />
+        <joint name="j2s6s200_joint_2" value="3.07202" />
+        <joint name="j2s6s200_joint_3" value="1.40840" />
+        <joint name="j2s6s200_joint_4" value="6.28237" />
+        <joint name="j2s6s200_joint_5" value="4.433662" />
+        <joint name="j2s6s200_joint_6" value="12.55657" />
     </group_state>
     <group_state name="Look_real" group="arm">
         <joint name="j2s6s200_joint_1" value="-1.57655" />
