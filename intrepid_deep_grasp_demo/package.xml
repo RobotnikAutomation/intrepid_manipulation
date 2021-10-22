@@ -29,6 +29,11 @@
   <depend>moveit_visual_tools</depend>
   <depend>rviz_visual_tools</depend>
   <depend>intrepid_manipulation_msgs</depend>
+  <depend>jsk_rviz_plugins</depend>
+  <depend>std_msgs</depend>
+  <depend>tf2</depend>
+  <depend>eigen_conversions</depend>
+  <depend>tf2_ros</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
