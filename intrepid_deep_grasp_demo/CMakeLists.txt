@@ -25,7 +25,16 @@ find_package(catkin REQUIRED COMPONENTS
   moveit_visual_tools
   rviz_visual_tools
   intrepid_manipulation_msgs
+  jsk_rviz_plugins
+  std_msgs
+  tf2
+  eigen_conversions
+  tf2_ros
 )
+
+# System dependencies are found with CMake's conventions
+find_package(Eigen3 REQUIRED)
+find_package(PCL 1.8 REQUIRED)
 
 ###################################
 ## Catkin specific configuration ##
@@ -36,6 +45,9 @@ catkin_package(
 	moveit_task_constructor_msgs
  	roscpp
   sensor_msgs
+ DEPENDS
+  EIGEN3
+  PCL
 )
 
 ###########
@@ -60,13 +72,33 @@ add_executable(intrepid_deep_grasp_demo_node
  							 src/deep_grasp_demo.cpp
                src/deep_grasp_demo_node.cpp 
 							 src/deep_pick_place_task.cpp
+               src/deep_pick_task.cpp
+)
+
+add_executable(republish_filtered_cloud_node
+               src/republish_filtered_cloud.cpp
+)
+
+add_executable(calculate_transform_node
+               src/calculate_transform.cpp
 )
 
 add_dependencies(intrepid_deep_grasp_demo_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(republish_filtered_cloud_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(calculate_transform_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
 
 # Specify libraries to link a library or executable target against
 target_link_libraries(intrepid_deep_grasp_demo_node
                       intrepid_deep_grasp_demo_lib
+                      ${catkin_LIBRARIES}
+)
+
+target_link_libraries(republish_filtered_cloud_node
+                      ${catkin_LIBRARIES}
+)
+
+target_link_libraries(calculate_transform_node
                       ${catkin_LIBRARIES}
 )
 
