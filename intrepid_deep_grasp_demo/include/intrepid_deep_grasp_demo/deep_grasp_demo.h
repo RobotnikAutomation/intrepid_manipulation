@@ -7,6 +7,13 @@
 #include <map>
 #include <algorithm>
 #include <vector>
+#include <boost/format.hpp>
+
+// RVIZ
+
+#include <jsk_rviz_plugins/OverlayText.h>
+#include <std_msgs/ColorRGBA.h>
+#include <std_msgs/Float32.h>
 
 // ROS
 #include <ros/ros.h>
@@ -18,12 +25,40 @@
 #include <rosparam_shortcuts/rosparam_shortcuts.h>
 #include <rviz_visual_tools/rviz_visual_tools.h>
 
+//TF
+//#include <tf/tf.h>
+//#include <tf/transform_listener.h>
+
+
+// PCL
+#include <sensor_msgs/PointCloud2.h>
+#include <pcl_conversions/pcl_conversions.h>
+#include <pcl/point_types.h>
+#include <pcl/common/transforms.h>
+#include <pcl/common/common.h>
+#include <pcl/filters/voxel_grid.h>
+#include <pcl/filters/statistical_outlier_removal.h>
+#include <pcl/io/pcd_io.h>
+
+//// Eigen
+#include <Eigen/Dense>
+#include <eigen_conversions/eigen_msg.h>
+#include <tf_conversions/tf_eigen.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <sensor_msgs/PointCloud2.h>
+#include <tf/transform_datatypes.h>
+#include <tf2_eigen/tf2_eigen.h>
+
 // MTC 
 #include <moveit_task_constructor_msgs/SampleGraspPosesAction.h>
 
 // MTC demo implementation
 #include <intrepid_deep_grasp_demo/deep_pick_place_task.h>
+#include <intrepid_deep_grasp_demo/deep_pick_task.h>
 #include <intrepid_manipulation_msgs/PickupObjectAction.h>
+#include <actionlib_msgs/GoalID.h>
+
 
 // RCOMPONENT
 #include <rcomponent/rcomponent.h>
@@ -36,16 +71,22 @@
 #include <moveit_msgs/Constraints.h>
 #include <moveit_visual_tools/moveit_visual_tools.h>
 #include <moveit/planning_scene_monitor/planning_scene_monitor.h>
-
-/* #include <moveit_msgs/PickupAction.h>
-#include <moveit_msgs/PlaceAction.h> */
+#include <moveit/kinematic_constraints/utils.h>
 
 // CUSTOM PLANNING SCENE BUIDLING CLASSES
 #include <intrepid_deep_grasp_demo/object_builder.h>
 #include <intrepid_deep_grasp_demo/pose_builder.h>
 
+#include <tf2_ros/transform_listener.h>
+#include <geometry_msgs/TransformStamped.h>
+#include <tf2_ros/transform_broadcaster.h>
+#include <tf2/convert.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+
 class DeepGraspDemo : public rcomponent::RComponent
 {
+  typedef actionlib::SimpleActionClient<intrepid_manipulation_msgs::PickupObjectAction> DGDAC;
+
 public:
   DeepGraspDemo(ros::NodeHandle h);
   ~DeepGraspDemo();
@@ -69,145 +110,99 @@ protected:
 
   // ROS stuff
   std::shared_ptr<tf2_ros::Buffer> move_group_tf2_buffer_; // Move_group buffer
-  tf2_ros::Buffer tfBuffer;
-  tf2_ros::TransformListener* tf_listener;
+  tf2_ros::Buffer tfBuffer; // TF buffer
+  tf2_ros::TransformListener* tf_listener; // TF listener
 
   // MTC task
-  /* intrepid_deep_grasp_demo::DeepPickPlaceTask deep_pick_place_task{"deep_pick_place_task", nh_}; */
   std::shared_ptr<intrepid_deep_grasp_demo::DeepPickPlaceTask> deep_pick_place_task;
-  // Pick object action server
+  std::shared_ptr<intrepid_deep_grasp_demo::DeepPickTask> deep_pick_task; // MTC deep grasp demo pick task object
+  
+  // Global Action server callbacks
   virtual void goalCB(const std::string& action);
   virtual void preemptCB();
+
+  // Pick object Action server
   std::shared_ptr<actionlib::SimpleActionServer<intrepid_manipulation_msgs::PickupObjectAction>> pick_object_as_;
-  std::string action_;
   actionlib::SimpleActionServer<intrepid_manipulation_msgs::PickupObjectAction>::GoalConstPtr pick_object_goal_;
-
-  // RVIZ stuff
-  ros::Subscriber rviz_sub;
-  bool allow_execute;
-  void rviz_callback(const sensor_msgs::Joy& msg);
-
-  // MoveIt stuff
-/*   void pick_chain_movement(std::string pick_position);
-  void place_chain_movement(std::string place_position);
-  void scan(std::string scanning_position);
-  bool create_planning_scene();
-  void gripper_on();
-  void gripper_off(); */
-
-  bool create_planning_scene();
-
-  std::string arm_group_name_; // Move_group group name 
-  std::string world_frame_;
-  ros::WallDuration move_group_timeout_;
-  moveit::planning_interface::MoveGroupInterfacePtr move_group_;
-  moveit::planning_interface::MoveGroupInterface::Plan plan;
-  moveit::planning_interface::PlanningSceneInterfacePtr planning_scene_interface_;
-  planning_scene_monitor::PlanningSceneMonitorPtr planning_scene_monitor_;
-  collision_detection::AllowedCollisionMatrix acm_;
-  moveit_msgs::PlanningScene planning_scene_msg;
-
-
-  std::vector< std::string > objects_in_roi; //CHANGE
-  
-  std::vector<Object_Builder> parsed_objects;
-  std::vector<moveit_msgs::CollisionObject> moveit_objects;
-
-  //actionlib::SimpleActionServer<component_sorting_msgs::PickupFromAction>::GoalConstPtr pickup_from_goal_;
-  //actionlib::SimpleActionServer<component_sorting_msgs::PlaceOnAction>::GoalConstPtr place_on_goal_;
-  //actionlib::SimpleActionServer<component_sorting_msgs::InitHolderAction>::GoalConstPtr init_holder_goal_;
-  //std::shared_ptr<actionlib::SimpleActionServer<component_sorting_msgs::PickupFromAction>> pickup_from_as_;
-  //std::shared_ptr<actionlib::SimpleActionServer<component_sorting_msgs::PlaceOnAction>> place_on_as_;
-  //std::shared_ptr<actionlib::SimpleActionServer<component_sorting_msgs::InitHolderAction>> init_holder_as_;
-
-  //component_sorting_msgs::PlaceOnFeedback place_feedback_;
-  //component_sorting_msgs::PlaceOnResult place_result_;
-  //component_sorting_msgs::PickupFromFeedback pick_feedback_;
-  //component_sorting_msgs::PickupFromResult pick_result_;
-  //component_sorting_msgs::InitHolderFeedback init_holder_feedback_;
-  //component_sorting_msgs::InitHolderResult init_holder_result_;
-  intrepid_manipulation_msgs::PickupObjectFeedback pick_object_feedback_;
+  intrepid_manipulation_msgs::PickupObjectFeedback pick_object_feedback_; 
   intrepid_manipulation_msgs::PickupObjectResult pick_object_result_;
+  ros::Publisher pick_goal_pub; //  Action server goal topic publisher
+  ros::Publisher pick_cancel_pub; // Action server cancel topic publisher
 
-  warehouse_ros::DatabaseConnection::Ptr conn_;
+  // Pick object action client
+  std::shared_ptr<DGDAC> pick_object_ac_;
 
-  std::vector<geometry_msgs::Pose> waypoints;
-  geometry_msgs::Pose current_cartesian_pose;
-  geometry_msgs::Pose waypoint_cartesian_pose;
-  moveit_msgs::RobotTrajectory trajectory;
-  moveit::planning_interface::MoveGroupInterface::Plan cartesian_plan;
-  const double jump_threshold = 0.0;
-  const double eef_step = 0.01;
+  // RVIZ Intrepid GUI PLUGIN
+  ros::Subscriber intrepid_gui_sub; // Intrepid RViz GUI Plugin subscriber 
+  bool allow_execute_; // Allow execution of moveit motion plan
+  bool allow_start_; // Allow start of deep learning action
+  bool allow_display_; // Allow display of moveit plan
+  bool stop_execution_; // Stop moveit motion execution 
+  void intrepid_gui_callback(const sensor_msgs::Joy& msg); // Intrepid Rviz GUI Callback
 
-  double success_cartesian_plan;
+  // RVIZ jsk text overlay display PLUGIN
+  std_msgs::ColorRGBA set_text_color(std::vector<double>& rgba_color); // Function to set text color 
+  std::vector<double> warning_color = {1, 0 ,0, 1};
+  std::vector<double> success_color = {0, 1 ,0, 1};
+  std::vector<double> feedback_color = {25/255.0, 1.0, 240.0/255.0, 1.0};
+  std::vector<double> background_color = {0.0, 0.0 ,0.0, 0.0};
+  ros::Publisher overlay_text_pub; // RViz overlay text publisher
+  jsk_rviz_plugins::OverlayText rviz_text_msg; // Text msg to publish
+
+  // ROS PARAMS FROM JACO DESCRIPTION YAML
+  std::string arm_group_name_; // Move_group group name 
+  std::string world_frame_; // Move_group world frame
+  double look_dist_; // Distance in z over object 
+  std::string host; // Mongo DB database host
+  int port; // Mongo DB database port
+  std::string point_cloud_frame_, end_effector_frame_; // Pointcloud camera frame and end effector frame
+  std::string camera_in_pcl_topic_, merged_out_pcl_topic_; // PCL camera in topic and deep grasp demo out PCL topic
+
+  // Moveit Initialization stuff
+  ros::WallDuration move_group_timeout_; 
+  moveit::planning_interface::MoveGroupInterfacePtr move_group_; // Move group interface
+  moveit::planning_interface::PlanningSceneInterfacePtr planning_scene_interface_; // Planning scene interface
+  planning_scene_monitor::PlanningSceneMonitorPtr planning_scene_monitor_; // Planning scene monitor
+
+  warehouse_ros::DatabaseConnection::Ptr conn_; // Moveit warehouse database connection
+  bool create_planning_scene(); // Moveit planning scene upload function
+
+  std::string desired_constraint_name_;
+  moveit_msgs::Constraints global_constraint; 
+
+  // Movegroup Motion stuff
+  bool move_to_look_pose(geometry_msgs::PoseStamped pose); // Move to x,y,z position (without orientation) and rotate end-effector to put camera in place
+  void move_rel_cartesian(const double& x, const double& y, const double& z, const double& roll, const double& pitch, const double& yaw, const moveit_msgs::Constraints& constraint); //Move end_effector relative to itself
+  void move_to_cartesian(const geometry_msgs::Pose& cartesian_pose, const moveit_msgs::Constraints& constraint); // Move to a world cartesian position
+  const double jump_threshold = 0.0; // Cartesian planner parameter
+  const double eef_step = 0.005; // Cartesian planner parameter
   double allowed_fraction_success = 0.95;
-  bool success_plan;
-  bool success_move;
-  bool success_execute;
-
-  const moveit::core::JointModelGroup* joint_model_group;
-  robot_state::RobotStatePtr robot_state_;
- // moveit_visual_tools::MoveItVisualTools visual_tools_("robot_base_footprint");
-  moveit_visual_tools::MoveItVisualToolsPtr visual_tools_;
-
   
-  std::string host;
-  int port;
-  float connection_timeout;
-  int connection_retries;
+  // Deep learning pickup object functionalities
+  void scanObject(); // Move end effector to scan object
+  double scan_move_linear_, scan_move_angular_; // Amount to move when scanning area
+  geometry_msgs::Pose null_pose; // Define zero pose
 
-  map<std::string, Pose_Builder> approach_poses_;
-  map<std::string, Pose_Builder> place_poses_;
-  map<std::string, Pose_Builder> pick_poses_;
-  map<std::string, Pose_Builder> pre_pick_poses_;
-  map<std::string, Pose_Builder> pre_place_poses_;
+  // Deep learning point cloud functionalities
+  ros::Subscriber point_cloud_sub; // Subscriber to incoming point cloud (from camera or filtering node)
+  sensor_msgs::PointCloud2 cloud_in_msg; // Stores incoming point cloud
+  void point_cloud_callback(const sensor_msgs::PointCloud2::ConstPtr& msg); // Point cloud in callback
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr merged_cloud; // Global merged cloud point cloud object
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr filtered_merged_cloud; // Global filtered merged cloud point cloud object
+  void addPointCloud(); // Adds current point cloud to global merged cloud
+  ros::Timer dgd_pcl_pub_timer; // Timer to publish filtered merged point cloud
+  void pubPointCloudCallback(); // Timer callback
+  ros::Publisher merged_cloud_pub_; // Publishes filtered merged cloud
+  bool publish_cloud_; // Allows filtered merged cloud to be published
 
-  std::vector<std::string> positions_to_use;
+  // Publish computation time through RVIZ
+  ros::Timer publish_computation_time_timer; // Timer thread to publish computation time in RVIZ GUI
+  ros::WallTime timer_start_; // Sets start time 
+  bool publish_computation_time; // Allows computation time to be published
+  void publishComputationTimeCallback(); // Timer callback
 
-  //ur_msgs::SetIO srv;
-  //gazebo_ros_link_attacher::Attach gazebo_link_attacher_msg;
-  ros::ServiceClient gripper_client;
-  ros::ServiceClient gazebo_link_attacher_client;
-  ros::ServiceClient gazebo_link_detacher_client;
-
-  //double dock_dist_table = 0.115;
-
-
-  struct Box{
-    double length, width;
-  };
-
-  struct Box box;
-
-  double gripper_height;
-
-  std::string identified_box;
-  std::string identified_handle;
-
-  double box_handle_displacement;
-
-  bool simulation;
-
-  std::string moveit_constraint;
-  moveit_msgs::Constraints current_constraint;
-  // in case we contact MoveIt through actionlib
-  // std::shared_ptr<actionlib::SimpleActionServer<moveit_msgs::PickupAction>> pickup_as_;
-  // std::shared_ptr<actionlib::SimpleActionServer<moveit_msgs::PlaceAction>> place_as_;
-
-  // std::shared_ptr<actionlib::SimpleActionClient<moveit_msgs::PickupAction>> pickup_ac_;
-  // std::shared_ptr<actionlib::SimpleActionClient<moveit_msgs::PlaceAction>> place_ac_;
-
-  /* void tfLatchCallback(); */
-  ros::Timer tf_latch_timer;
-
-  std::vector <geometry_msgs::TransformStamped> latched_tf;
-  tf2_ros::TransformBroadcaster tf_broadcaster;
-
-  /* void tfListener(std::string scanning_position); */
-
-
-  geometry_msgs::TransformStamped transform_stamped;
-  geometry_msgs::TransformStamped table_qr_transform_stamped;
+  // CPP thread functionalities
+  bool action_ready_flag_; // Flag to check status of action (if false, action is still executing)
 };
 
 #endif  // _INTREPID_DEEP_GRASP_DEMO__DEEP_GRASP_DEMO_H_

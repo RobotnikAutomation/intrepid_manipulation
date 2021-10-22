@@ -8,5 +8,6 @@ int main(int argc, char **argv)
   DeepGraspDemo dgd(n);
   dgd.asyncStart();
 
-  ros::spin();
+  ros::MultiThreadedSpinner spinner(2);
+  spinner.spin();
 }
