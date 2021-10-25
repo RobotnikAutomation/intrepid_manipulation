@@ -18,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
 	moveit_task_constructor_core
 	moveit_task_constructor_msgs
   roscpp
+  rviz
 	rosparam_shortcuts
   sensor_msgs
   moveit_msgs
@@ -30,21 +31,48 @@ find_package(catkin REQUIRED COMPONENTS
   tf2
   eigen_conversions
   tf2_ros
+  pluginlib
 )
 
 # System dependencies are found with CMake's conventions
 find_package(Eigen3 REQUIRED)
 find_package(PCL 1.8 REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(OGRE_OV OGRE)
+
+# Qt 4 or 5
+if("${rviz_QT_VERSION}" VERSION_LESS "5")
+  find_package(Qt4 ${rviz_QT_VERSION} REQUIRED QtCore QtGui)
+  include(${QT_USE_FILE})
+  macro(qt_wrap_ui)
+    qt4_wrap_ui(${ARGN})
+  endmacro()
+else()
+  find_package(Qt5 ${rviz_QT_VERSION} REQUIRED Core Widgets)
+  set(QT_LIBRARIES Qt5::Widgets)
+  macro(qt_wrap_ui)
+    qt5_wrap_ui(${ARGN})
+  endmacro()
+endif()
+## Prefer the Qt signals and slots to avoid defining "emit", "slots",
+## etc because they can conflict with boost signals, so define QT_NO_KEYWORDS here.
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOMOC_COMPILER_PREDEFINES OFF)
+add_definitions(-DQT_NO_KEYWORDS)  
+
 
 ###################################
 ## Catkin specific configuration ##
 ###################################
 catkin_package(
  INCLUDE_DIRS include
+ LIBRARIES intrepid_manipulation_gui_pluginlib
  CATKIN_DEPENDS
 	moveit_task_constructor_msgs
  	roscpp
   sensor_msgs
+  pluginlib
  DEPENDS
   EIGEN3
   PCL
@@ -53,6 +81,7 @@ catkin_package(
 ###########
 ## Build ##
 ###########
+
 
 # Specify additional locations of header files
 # Your package locations should be listed before other locations
@@ -64,8 +93,8 @@ include_directories(
 add_library(intrepid_deep_grasp_demo_lib
  src/object_builder.cpp
  src/pose_builder.cpp
-
 )
+
 
 # Declare a C++ executable
 add_executable(intrepid_deep_grasp_demo_node
@@ -102,6 +131,23 @@ target_link_libraries(calculate_transform_node
                       ${catkin_LIBRARIES}
 )
 
+add_library(intrepid_manipulation_gui_pluginlib src/intrepid_manipulation_gui.cpp)
+
+# add_dependencies(intrepid_manipulation_gui_pluginlib src/intrepid_manipulation_gui.cpp ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+target_link_libraries(intrepid_manipulation_gui_pluginlib
+  ${catkin_LIBRARIES}
+  ${QT_LIBRARIES}
+  ${rviz_DEFAULT_PLUGIN_LIBRARIES}
+)
+
+install(TARGETS  intrepid_manipulation_gui_pluginlib
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+
 #############
 ## Install ##
 #############
@@ -110,12 +156,18 @@ target_link_libraries(calculate_transform_node
 install(
   TARGETS
     intrepid_deep_grasp_demo_node
+    intrepid_manipulation_gui_pluginlib
   ARCHIVE DESTINATION
     ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION
     ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION
     ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(FILES
+  intrepid_manipulation_gui.xml
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
 # Mark cpp header files for installation

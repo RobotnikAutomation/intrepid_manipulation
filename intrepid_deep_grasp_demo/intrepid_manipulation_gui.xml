@@ -1,0 +1,9 @@
+<library path="lib/libintrepid_manipulation_gui_pluginlib">
+  <class name="intrepid_dashboard/IntrepidManipulationGui"
+         type="intrepid_dashboard::IntrepidManipulationGui"
+         base_class_type="rviz::Panel">
+    <description>
+      A panel widget allowing control of Intrepid manipulation application
+    </description>
+  </class>
+</library>

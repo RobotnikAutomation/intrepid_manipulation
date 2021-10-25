@@ -34,10 +34,11 @@
   <depend>tf2</depend>
   <depend>eigen_conversions</depend>
   <depend>tf2_ros</depend>
+  <depend>pluginlib</depend>
+  <depend>rviz</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
-    <!-- Other tools can request additional information be placed here -->
-
+    <rviz plugin="${prefix}/intrepid_manipulation_gui.xml"/>
   </export>
 </package>
