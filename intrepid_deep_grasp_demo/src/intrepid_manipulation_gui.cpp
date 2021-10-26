@@ -36,16 +36,6 @@
    Desc:   Rviz display panel for controlling and debugging ROS applications
 */
 
-#include <cstdio>
-
-#include <QGroupBox>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QLineEdit>
-#include <QPainter>
-#include <QSpinBox>
-#include <QTimer>
-#include <QVBoxLayout>
 
 #include "intrepid_deep_grasp_demo/intrepid_manipulation_gui.h"
 

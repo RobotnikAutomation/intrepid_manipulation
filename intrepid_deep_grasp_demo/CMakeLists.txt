@@ -131,7 +131,7 @@ target_link_libraries(calculate_transform_node
                       ${catkin_LIBRARIES}
 )
 
-add_library(intrepid_manipulation_gui_pluginlib src/intrepid_manipulation_gui.cpp)
+add_library(intrepid_manipulation_gui_pluginlib src/intrepid_manipulation_gui.cpp include/intrepid_deep_grasp_demo/intrepid_manipulation_gui.h)
 
 # add_dependencies(intrepid_manipulation_gui_pluginlib src/intrepid_manipulation_gui.cpp ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 

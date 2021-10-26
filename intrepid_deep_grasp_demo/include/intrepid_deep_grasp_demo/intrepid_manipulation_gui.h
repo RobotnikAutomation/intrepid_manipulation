@@ -1,3 +1,5 @@
+#ifndef INTREPID_MANIPULATION_PLUGIN_H
+#define INTREPID_MANIPULATION_PLUGIN_H
 /*********************************************************************
  * Software License Agreement (BSD License)
  *
@@ -50,9 +52,23 @@
 #include <QPushButton>
 #include <QComboBox>
 
-#include <rviz_visual_tools/remote_reciever.h>
+//#include <rviz_visual_tools/remote_reciever.h>
 
 #include <std_msgs/Bool.h>
+#include <sensor_msgs/Joy.h>
+
+#include <cstdio>
+
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPainter>
+#include <QSpinBox>
+#include <QTimer>
+#include <QVBoxLayout>
+
+#include <QWidget>
 
 class QLineEdit;
 class QSpinBox;
@@ -100,3 +116,5 @@ protected:
 };
 
 }  // end namespace rviz_visual_tools
+
+#endif  // INTREPID_MANIPULATION_PLUGIN_H
