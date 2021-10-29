@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="load_cloud" default="false" doc="load point cloud from file"/>
-  <arg name="joint_states_ns" default="/j2s6s200/joint_states"/>
+  <arg name="joint_states_ns" default="/joint_states"/>
 
   <arg name="cartesian_limits" default="false" doc="specify cartesian limits on cloud in frame of optical link"/>
   <arg name="remove_table" default="true" doc="segment table plane from object"/>

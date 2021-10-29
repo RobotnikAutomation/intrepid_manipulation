@@ -25,6 +25,11 @@
   <xacro:include filename="$(find kinova_description)/urdf/j2s6s200.xacro"/>
   <xacro:include filename="$(find intrepid_robot_description)/urdf/structures/realsense2vgc10_support.urdf.xacro" />
   <xacro:include filename="$(find intrepid_robot_description)/urdf/structures/intel_d435.urdf.xacro" />
+  <!-- Import all Gazebo-customization elements -->
+  <xacro:include filename="$(find kinova_description)/urdf/kinova.gazebo" />
+ 
+  <!-- Gazebo ros control plugin-->
+  <xacro:gazebo_config robot_namespace=""/>
 
     <!-- Intel Realsense support-->
   <xacro:realsense2vgc10_support prefix="$(arg prefix)wrist_rgbd_support" parent="$(arg prefix)link_5">

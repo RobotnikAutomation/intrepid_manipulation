@@ -28,7 +28,7 @@
   <run_depend>tf2_ros</run_depend>
   <run_depend>xacro</run_depend>
   <run_depend>roscpp</run_depend>
-  <run_depend>moveit_calibration_plugins</run_depend>
+  <!-- <run_depend>moveit_calibration_plugins</run_depend> -->
   <!-- This package is referenced in the warehouse launch files, but does not build out of the box at the moment. Commented the dependency until this works. -->
   <!-- <run_depend>warehouse_ros_mongo</run_depend> -->
     <run_depend>intrepid_robot_description</run_depend>

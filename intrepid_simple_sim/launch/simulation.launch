@@ -3,6 +3,7 @@
   <!-- these are the arguments you can pass this launch file, for example paused:=true -->  
   <arg name="kinova_robotType" default="j2s6s200"/>
   <arg name="kinova_robotName" default="$(arg kinova_robotType)"/>
+  <arg name="standalone" default="true"/>
   <arg name="paused" default="true"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
@@ -19,6 +20,8 @@
     <arg name="paused" value="$(arg paused)"/>
     <arg name="use_sim_time" value="$(arg use_sim_time)"/>
     <arg name="headless" value="$(arg headless)"/>
+    <arg name="verbose" value="true"/>
+
   </include>
 
   <!-- Load the URDF into the ROS Parameter Server -->
@@ -57,6 +60,7 @@
     <arg name="kinova_robotType" value="$(arg kinova_robotType)"/>
     <arg name="use_trajectory_controller" value="$(arg use_trajectory_controller)"/>
     <arg name="is7dof" value="$(arg is7dof)"/>
+    <arg name="standalone" value="$(arg standalone)"/>
   </include>
 
 <!--   <param name="object_description" command="$(find xacro)/xacro '$(find deep_grasp_task)/urdf/objects/cylinder.urdf.xacro'"/>
