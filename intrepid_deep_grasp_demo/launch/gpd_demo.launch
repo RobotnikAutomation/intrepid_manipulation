@@ -10,7 +10,7 @@
 
 
   <arg name="action_name" value="generate_grasps" doc="action name space"/>
-  <arg name="frame_id" value="world" doc="frame of the grasps sent to MTC"/>
+  <arg name="frame_id" value="robot_base_footprint" doc="frame of the grasps sent to MTC"/>
   <arg unless="$(arg load_cloud)" name="point_cloud_topic" value="/merged_pcl/points" doc="point cloud topic name"/>
 <!--   <arg name="camera_in_pcl_topic" value="/camera/depth/color/points" doc="point cloud topic name"/>
  -->

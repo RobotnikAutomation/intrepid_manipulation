@@ -93,11 +93,11 @@ int DeepGraspDemo::rosSetup()
   planning_scene_monitor_.reset(new planning_scene_monitor::PlanningSceneMonitor(robot_description));      
 
   // update the planning scene monitor with the current state
-  bool success = planning_scene_monitor_->requestPlanningSceneState("/get_planning_scene");
+  bool success = planning_scene_monitor_->requestPlanningSceneState("get_planning_scene");
   RCOMPONENT_INFO_STREAM("Request planning scene " << (success ? "succeeded." : "failed."));
 
   // keep up to date with new changes
-  planning_scene_monitor_->startSceneMonitor("/move_group/monitored_planning_scene");
+  planning_scene_monitor_->startSceneMonitor("move_group/monitored_planning_scene");
 
   // planning_scene_(new planning_scene::PlanningScene(move_group_->getRobotModel()));
 
@@ -110,7 +110,7 @@ int DeepGraspDemo::rosSetup()
   pick_object_as_->registerPreemptCallback(boost::bind(&DeepGraspDemo::preemptCB, this));
 
   // Set PickupObject action client
-  pick_object_ac_.reset(new DGDAC(nh_, "/deep_grasp_demo/pickup_object", false));
+  pick_object_ac_.reset(new DGDAC(nh_, "deep_grasp_demo/pickup_object", false));
   
   // Perform connection to moveit warehouse 
   conn_ = moveit_warehouse::loadDatabase();
@@ -146,8 +146,8 @@ int DeepGraspDemo::rosSetup()
   intrepid_gui_sub = nh_.subscribe("/intrepid_rviz_dashboard",10, &DeepGraspDemo::intrepid_gui_callback, this);
 
   // Set up pickup object goal topic publisher
-  pick_goal_pub = nh_.advertise<intrepid_manipulation_msgs::PickupObjectActionGoal>("/deep_grasp_demo/pickup_object/goal", 10);
-  pick_cancel_pub = nh_.advertise<actionlib_msgs::GoalID>("/deep_grasp_demo/pickup_object/cancel", 10);
+  pick_goal_pub = nh_.advertise<intrepid_manipulation_msgs::PickupObjectActionGoal>("deep_grasp_demo/pickup_object/goal", 10);
+  pick_cancel_pub = nh_.advertise<actionlib_msgs::GoalID>("deep_grasp_demo/pickup_object/cancel", 10);
   // Set up rviz overlay text publisher
   overlay_text_pub = nh_.advertise<jsk_rviz_plugins::OverlayText>("/intrepid_rviz_text", 10);
 
