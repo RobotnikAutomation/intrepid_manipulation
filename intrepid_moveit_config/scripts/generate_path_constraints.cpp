@@ -29,6 +29,7 @@ int main(int argc, char** argv)
   }
 
   std::string robot = "j2s6s200";
+  std::string robot_2 = "rbsherpa";
   std::string group = "arm"; 
   std::vector<std::string> names;
   constraints_storage_->getKnownConstraints(names, robot, group);
@@ -51,6 +52,7 @@ int main(int argc, char** argv)
     constraints.orientation_constraints.clear();
     constraints.orientation_constraints.push_back(orientation);
     constraints_storage_->addConstraints(constraints, robot, group);
+    constraints_storage_->addConstraints(constraints, robot_2, group);
 
     constraints = moveit_msgs::Constraints();
     constraints.name = "shoulder_elbow";
@@ -69,6 +71,7 @@ int main(int argc, char** argv)
     joint.weight = 100;
     constraints.joint_constraints.push_back(joint);
     constraints_storage_->addConstraints(constraints, robot, group);
+    constraints_storage_->addConstraints(constraints, robot_2, group);
     
 
 
