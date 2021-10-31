@@ -622,6 +622,19 @@ void DeepGraspDemo::scanObject(){
 
   move_group_->clearPathConstraints();
 
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr passthrough_cloud;
+  passthrough_cloud.reset(new pcl::PointCloud<pcl::PointXYZRGB>);
+
+  pcl::PassThrough<pcl::PointXYZRGB> pass;
+  pass.setInputCloud(merged_cloud);
+
+
+  pass.setFilterFieldName("y");
+  pass.setFilterLimits(0.45, 2);
+  pass.filter(*passthrough_cloud);
+
+  std::cout << "HOLA" << std::endl;
+
   try{
     look_pose_tf_msg = tfBuffer.lookupTransform(point_cloud_frame_,world_frame_,ros::Time::now(),ros::Duration(10.0));
   }
@@ -632,10 +645,10 @@ void DeepGraspDemo::scanObject(){
   }
 
   Eigen::Affine3d world_to_camera_ = tf2::transformToEigen(look_pose_tf_msg);
-  pcl::transformPointCloud(*merged_cloud, *merged_cloud, world_to_camera_.matrix()); 
+  pcl::transformPointCloud(*passthrough_cloud, *passthrough_cloud, world_to_camera_.matrix()); 
 
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;
-  sor.setInputCloud (merged_cloud);
+  sor.setInputCloud (passthrough_cloud);
   sor.setLeafSize (0.01f, 0.01f, 0.01f);
   sor.filter (*filtered_merged_cloud);
  
