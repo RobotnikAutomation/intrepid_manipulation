@@ -628,9 +628,14 @@ void DeepGraspDemo::scanObject(){
   pcl::PassThrough<pcl::PointXYZRGB> pass;
   pass.setInputCloud(merged_cloud);
 
+  if(world_frame_ == "robot_base_footprint"){
+    pass.setFilterFieldName("y");
+    pass.setFilterLimits(0.45, 2);
+  }else{
+    pass.setFilterFieldName("y");
+    pass.setFilterLimits(-2, 2);
+  }
 
-  pass.setFilterFieldName("y");
-  pass.setFilterLimits(0.45, 2);
   pass.filter(*passthrough_cloud);
 
   std::cout << "HOLA" << std::endl;
