@@ -9,7 +9,7 @@
   <arg name="xyz_upper_limits" default="[0.3, 0.3, 0.75]" doc="upper x,y,z cartesian limits on cloud"/>
 
   <arg name="action_name" value="generate_grasps" doc="action name space"/>
-  <arg name="frame_id" value="robot_base_footprint" doc="frame of the grasps sent to MTC"/> <!-- world / robot_base_footprint -->
+  <arg name="frame_id" value="world" doc="frame of the grasps sent to MTC"/> <!-- world / robot_base_footprint -->
   <arg unless="$(arg load_cloud)" name="point_cloud_topic" value="/merged_pcl/points" doc=" deep learning algorithm point cloud topic name"/>
   <arg name="camera_in_pcl_topic" value="/camera/depth/points" doc="point cloud topic name"/>
 
