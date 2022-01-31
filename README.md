@@ -65,6 +65,6 @@ Use RViz's intrepid plugin to interact with application:
 
 This demo launches a table and an object to grasp as moveit collision objects. To modify the size and position of the table and pick target (has to be a cube) use the objects_config.yaml, inside config_robot folder: 
 
-`roslaunch grasp_pipeline_demo grasp_pipeline_demo.launch`
+`roslaunch intrepid_moveit_grasps_demo grasp_pipeline_demo.launch`
 
 
