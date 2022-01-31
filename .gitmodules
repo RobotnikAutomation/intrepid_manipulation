@@ -1,39 +1,39 @@
 [submodule "kinova-ros"]
-	path = kinova-ros
+	path = robot/kinova-ros
 	url = https://github.com/RobotnikAutomation/kinova-ros
 	branch = develop
 [submodule "rviz_visual_tools"]
-	path = rviz_visual_tools
+	path = utils/rviz_visual_tools
 	url = https://github.com/PickNikRobotics/rviz_visual_tools
 [submodule "robotnik_sensors"]
-	path = robotnik_sensors
+	path = robot/robotnik_sensors
 	url = https://github.com/RobotnikAutomation/robotnik_sensors
 	branch = melodic-devel
 [submodule "realsense_gazebo_plugin"]
-	path = realsense_gazebo_plugin
+	path = sim/realsense_gazebo_plugin
 	url = https://github.com/RobotnikAutomation/realsense_gazebo_plugin
 	branch = melodic-devel
 [submodule "moveit_grasps"]
-	path = moveit_grasps
+	path = manipulation/moveit_grasps
 	url = https://github.com/RobotnikAutomation/moveit_grasps
 	branch = melodic-devel
 [submodule "deep_grasp_demo"]
-	path = deep_grasp_demo
+	path = manipulation/deep_grasp_demo
 	url = https://github.com/RobotnikAutomation/deep_grasp_demo
 [submodule "moveit_task_constructor"]
-	path = moveit_task_constructor
+	path = manipulation/moveit_task_constructor
 	url = https://github.com/RobotnikAutomation/moveit_task_constructor
 	branch = master
 [submodule "rcomponent"]
-	path = rcomponent
+	path = utils/rcomponent
 	url = https://github.com/RobotnikAutomation/rcomponent
 [submodule "robotnik_pad"]
-	path = robotnik_pad
+	path = robot/robotnik_pad
 	url = https://github.com/RobotnikAutomation/robotnik_pad
 [submodule "robotnik_msgs"]
-	path = robotnik_msgs
+	path = robot/robotnik_msgs
 	url = https://github.com/RobotnikAutomation/robotnik_msgs
 [submodule "realsense-ros"]
-	path = realsense-ros
+	path = robot/realsense-ros
 	url = https://github.com/IntelRealSense/realsense-ros
 	branch = development
