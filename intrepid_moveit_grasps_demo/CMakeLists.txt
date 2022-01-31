@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(grasp_pipeline_demo)
+project(intrepid_moveit_grasps_demo)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 
@@ -30,7 +30,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES grasp_pipeline_demo
+#  LIBRARIES intrepid_moveit_grasps_demo
 #  CATKIN_DEPENDS moveit moveit_grasps
 #  DEPENDS system_lib
 )
@@ -48,24 +48,24 @@ include_directories(
 
 ## Declare a C++ library
 
-add_library(grasp_pipeline_demo
+add_library(intrepid_moveit_grasps_demo
   src/object_builder.cpp
 )
 
 
 ## Declare a C++ executable
 
-add_executable(grasp_pipeline_demo_node src/grasp_pipeline_demo.cpp)
+add_executable(intrepid_moveit_grasps_demo_node src/grasp_pipeline_demo.cpp)
 
 ## Add cmake target dependencies of the executable
 
-add_dependencies(grasp_pipeline_demo_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(intrepid_moveit_grasps_demo_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 
-target_link_libraries(grasp_pipeline_demo_node
+target_link_libraries(intrepid_moveit_grasps_demo_node
   ${catkin_LIBRARIES}
-  grasp_pipeline_demo
+  intrepid_moveit_grasps_demo
 )
 
 #############

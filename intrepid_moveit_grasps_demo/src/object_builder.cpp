@@ -1,4 +1,4 @@
-#include <grasp_pipeline_demo/object_builder.h>
+#include <intrepid_moveit_grasps_demo/object_builder.h>
 
 Object_Builder::Object_Builder(ros::NodeHandle pnh, std::string id)
 {

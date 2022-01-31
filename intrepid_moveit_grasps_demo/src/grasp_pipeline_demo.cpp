@@ -63,11 +63,11 @@
 // Parameter loading
 #include <rosparam_shortcuts/rosparam_shortcuts.h>
 
-#include <grasp_pipeline_demo/object_builder.h>
+#include <intrepid_moveit_grasps_demo/object_builder.h>
 
 namespace moveit_grasps
 {
-static const std::string LOGNAME = "grasp_pipeline_demo";
+static const std::string LOGNAME = "intrepid_moveit_grasps_demo";
 
 namespace
 {
@@ -94,7 +94,7 @@ public:
   GraspPipelineDemo() : nh_("~")
   {
     // Get arm info from param server
-    parent_name = "grasp_pipeline_demo";  // for namespacing logging messages
+    parent_name = "intrepid_moveit_grasps_demo";  // for namespacing logging messages
     rosparam_shortcuts::get(parent_name, nh_, "planning_group_name", planning_group_name_);
     rosparam_shortcuts::get(parent_name, nh_, "ee_group_name", ee_group_name_);
 
@@ -729,7 +729,7 @@ int main(int argc, char* argv[])
 {
   int num_tests = 1;
 
-  ros::init(argc, argv, "grasp_pipeline_demo");
+  ros::init(argc, argv, "intrepid_moveit_grasps_demo");
 
   // Allow the action server to recieve and send ros messages
   ros::AsyncSpinner spinner(2);
@@ -748,7 +748,7 @@ int main(int argc, char* argv[])
 
   // Benchmark time
   double duration = (ros::Time::now() - start_time).toSec();
-  ROS_INFO_STREAM_NAMED("grasp_pipeline_demo", "Total time: " << duration << "\t" << num_tests);
+  ROS_INFO_STREAM_NAMED("intrepid_moveit_grasps_demo", "Total time: " << duration << "\t" << num_tests);
   std::cout << "Total time: " << duration << "\t" << num_tests << std::endl;
 
   ros::Duration(1.0).sleep();  // let rviz markers finish publishing

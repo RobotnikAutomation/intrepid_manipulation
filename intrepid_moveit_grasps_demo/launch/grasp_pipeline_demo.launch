@@ -7,7 +7,7 @@
   <arg     if="$(arg debug)" name="launch_prefix"
            value="gdb -x $(find moveit_grasps)/launch/gdb_settings.gdb --ex run --args" />
 
-  <arg name="joint_states_ns" default="/j2s6s200/joint_states"/>
+  <arg name="joint_states_ns" default="/joint_states"/>
   
   <!-- Verbose mode -->
   <arg name="verbose" default="false" />
@@ -15,19 +15,19 @@
   <arg     if="$(arg verbose)" name="command_args" value="--verbose" />
 
   <!-- Start the demo -->
-  <node name="grasp_pipeline_demo" launch-prefix="$(arg launch_prefix)" pkg="grasp_pipeline_demo"
-  type="grasp_pipeline_demo_node" output="screen" args="$(arg command_args)">
+  <node name="intrepid_moveit_grasps_demo" launch-prefix="$(arg launch_prefix)" pkg="intrepid_moveit_grasps_demo"
+  type="intrepid_moveit_grasps_demo_node" output="screen" args="$(arg command_args)">
     <param name="ee_group_name" value="gripper"/>
     <param name="planning_group_name" value="arm"/>
-    <rosparam command="load" file="$(find grasp_pipeline_demo)/config_robot/j2s6s200_grasp_data.yaml"/>
-    <rosparam command="load" file="$(find grasp_pipeline_demo)/config_robot/objects_config.yaml"/>
-    <rosparam command="load" file="$(find grasp_pipeline_demo)/config/moveit_grasps_config.yaml"/>
+    <rosparam command="load" file="$(find intrepid_moveit_grasps_demo)/config_robot/j2s6s200_grasp_data.yaml"/>
+    <rosparam command="load" file="$(find intrepid_moveit_grasps_demo)/config_robot/objects_config.yaml"/>
+    <rosparam command="load" file="$(find intrepid_moveit_grasps_demo)/config/moveit_grasps_config.yaml"/>
     <remap from="/joint_states" to="$(arg joint_states_ns)" />
   </node>
 
   <!-- Planning Functionality -->
   <arg name="planner" default="ompl" />
-  <include ns="grasp_pipeline_demo" file="$(find j2s6s200_moveit_config)/launch/planning_pipeline.launch.xml">
+  <include ns="intrepid_moveit_grasps_demo" file="$(find j2s6s200_moveit_config)/launch/planning_pipeline.launch.xml">
     <arg name="pipeline" value="$(arg planner)" />
   </include>
 

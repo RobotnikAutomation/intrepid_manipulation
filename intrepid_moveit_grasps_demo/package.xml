@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>grasp_pipeline_demo</name>
+  <name>intrepid_moveit_grasps_demo</name>
   <version>0.0.0</version>
-  <description>The grasp_pipeline_demo package</description>
+  <description>The intrepid_moveit_grasps_demo package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
