@@ -18,7 +18,7 @@
   <arg name="sim" default="true"/>
 
   <!-- Default joint states topic -->
-  <arg name="joint_states_ns" default="/joint_states"/>
+  <arg name="joint_states_ns" default="joint_states"/>
 
   <!-- Default ROBOT namespace -->
   <arg name="ns" default="robot"/>
@@ -37,7 +37,7 @@
 
     <!-- If RViz loading was enabled, start RViz -->
     <include file="$(find intrepid_moveit_config)/launch/moveit_rviz.launch" if="$(arg rviz)">
-      <arg name="rviz_config" value="$(find intrepid_moveit_config)/launch/moveit.rviz"/>
+      <arg name="rviz_config" value="$(find intrepid_moveit_config)/launch/intrepid.rviz"/>
       <arg name="debug" value="$(arg debug)"/>
       <arg name="joint_states_ns" value="$(arg joint_states_ns)"/>
     </include>	

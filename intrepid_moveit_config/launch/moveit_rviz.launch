@@ -1,7 +1,7 @@
 <launch>
 
   <!-- Default joint states topic -->
-  <arg name="joint_states_ns" default="/joint_states"/>
+  <arg name="joint_states_ns" default="joint_states"/>
 
   <arg name="debug" default="false" />
   <arg unless="$(arg debug)" name="launch_prefix" value="" />
