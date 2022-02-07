@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="load_cloud" default="false" doc="load point cloud from file"/>
-  <arg name="joint_states_ns" default="/joint_states"/>
+  <arg name="joint_states_ns" default="joint_states"/>
 
   <arg name="cartesian_limits" default="false" doc="specify cartesian limits on cloud in frame of optical link"/>
   <arg name="remove_table" default="true" doc="segment table plane from object"/>
@@ -9,9 +9,9 @@
   <arg name="xyz_upper_limits" default="[0.3, 0.3, 0.75]" doc="upper x,y,z cartesian limits on cloud"/>
 
   <arg name="action_name" value="generate_grasps" doc="action name space"/>
-  <arg name="frame_id" value="world" doc="frame of the grasps sent to MTC"/> <!-- world / robot_base_footprint -->
-  <arg unless="$(arg load_cloud)" name="point_cloud_topic" value="/merged_pcl/points" doc=" deep learning algorithm point cloud topic name"/>
-  <arg name="camera_in_pcl_topic" value="/camera/depth/points" doc="point cloud topic name"/>
+  <arg name="frame_id" value="robot_base_footprint" doc="frame of the grasps sent to MTC"/> <!-- world / robot_base_footprint -->
+  <arg unless="$(arg load_cloud)" name="point_cloud_topic" value="merged_pcl/points" doc=" deep learning algorithm point cloud topic name"/>
+  <arg name="camera_in_pcl_topic" value="camera/depth/points" doc="point cloud topic name"/>
 
   <!-- file paths -->
   <arg name="robot_config" value="$(find intrepid_deep_grasp_demo)/config/jaco_description.yaml" doc="file path to robot configuration"/>
@@ -29,7 +29,7 @@
       <rosparam command="load" file="$(arg camera_config)"/>
       <param name="point_cloud_topic" value="$(arg point_cloud_topic)"/>
       <param name="camera_in_pcl_topic" value="$(arg camera_in_pcl_topic)"/>
-      <remap from="/joint_states" to="$(arg joint_states_ns)" />
+<!--       <remap from="/joint_states" to="$(arg joint_states_ns)" /> -->
   </node>
 
   <!-- Grasp detection using GPD -->

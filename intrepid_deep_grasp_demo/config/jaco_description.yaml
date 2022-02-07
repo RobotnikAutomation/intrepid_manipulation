@@ -3,7 +3,7 @@ max_solutions: 10
 
 # Planning group and link names
 arm_group_name: "arm"
-eef_name: "end_effector"
+eef_name: "gripper"
 hand_group_name: "gripper"
 hand_frame: "j2s6s200_end_effector"
 finger_tip_names: ["j2s6s200_link_finger_tip_1","j2s6s200_link_finger_tip_2"]
@@ -19,10 +19,10 @@ hand_close_pose: "Close"
 arm_home_pose: "Home"
 
 # Scene frames
-world_frame: "world" # world / robot_base_footprint
-table_reference_frame: "world"
-object_reference_frame: "world"
-camera_reference_frame: "world"
+world_frame: "robot_base_footprint" # world / robot_base_footprint
+table_reference_frame: "robot_base_footprint"
+object_reference_frame: "robot_base_footprint"
+camera_reference_frame: "robot_base_footprint"
 surface_link: "table"
 
 # Collision object for picking
