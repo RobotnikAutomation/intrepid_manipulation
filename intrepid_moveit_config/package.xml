@@ -3,7 +3,7 @@
   <name>intrepid_moveit_config</name>
   <version>0.3.0</version>
   <description>
-     An automatically generated package with all the configuration and launch files for using the j2s6s200 with the MoveIt! Motion Planning Framework
+     An automatically generated package with all the configuration and launch files for using the intrepid with the MoveIt Motion Planning Framework
   </description>
   <author email="mbeneyto@robotnik.es">Maria Beneyto</author>
   <maintainer email="mbeneyto@robotnik.es">Maria Beneyto</maintainer>
@@ -22,19 +22,19 @@
   <run_depend>moveit_planners_ompl</run_depend>
   <run_depend>moveit_ros_visualization</run_depend>
   <run_depend>moveit_setup_assistant</run_depend>
+  <run_depend>moveit_simple_controller_manager</run_depend>
   <run_depend>joint_state_publisher</run_depend>
   <run_depend>joint_state_publisher_gui</run_depend>
   <run_depend>robot_state_publisher</run_depend>
+  <run_depend>rviz</run_depend>
   <run_depend>tf2_ros</run_depend>
   <run_depend>xacro</run_depend>
   <run_depend>roscpp</run_depend>
   <!-- <run_depend>moveit_calibration_plugins</run_depend> -->
   <!-- This package is referenced in the warehouse launch files, but does not build out of the box at the moment. Commented the dependency until this works. -->
   <!-- <run_depend>warehouse_ros_mongo</run_depend> -->
-    <run_depend>intrepid_robot_description</run_depend>
-  <build_depend>intrepid_robot_description</build_depend>
+    <run_depend>intrepid_description</run_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>moveit_ros_warehouse</build_depend>  
-
 
 </package>

@@ -1,5 +1,6 @@
 controller_list:
   - name: fake_arm_controller
+    type: $(arg execution_type)
     joints:
       - j2s6s200_joint_1
       - j2s6s200_joint_2
@@ -8,11 +9,12 @@ controller_list:
       - j2s6s200_joint_5
       - j2s6s200_joint_6
   - name: fake_gripper_controller
+    type: $(arg execution_type)
     joints:
       - j2s6s200_joint_finger_1
       - j2s6s200_joint_finger_2
 initial:  # Define initial robot poses.
   - group: arm
-    pose: Vertical
+    pose: Home
   - group: gripper
     pose: Open
