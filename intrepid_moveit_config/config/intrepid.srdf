@@ -28,6 +28,30 @@
         <joint name="j2s6s200_joint_5" value="4" />
         <joint name="j2s6s200_joint_6" value="-0.05" />
     </group_state>
+    <group_state name="Look" group="arm">
+        <joint name="j2s6s200_joint_1" value="-1.48423" />
+        <joint name="j2s6s200_joint_2" value="2.90112" />
+        <joint name="j2s6s200_joint_3" value="1.42268" />
+        <joint name="j2s6s200_joint_4" value="-0.02056" />
+        <joint name="j2s6s200_joint_5" value="4.60978" />
+        <joint name="j2s6s200_joint_6" value="-3.04796" />
+    </group_state>
+    <group_state name="Place_inter" group="arm">
+        <joint name="j2s6s200_joint_1" value="4.75173" />
+        <joint name="j2s6s200_joint_2" value="3.05192" />
+        <joint name="j2s6s200_joint_3" value="1.40840" />
+        <joint name="j2s6s200_joint_4" value="6.28238" />
+        <joint name="j2s6s200_joint_5" value="4.43366" />
+        <joint name="j2s6s200_joint_6" value="12.55657" />
+    </group_state>
+    <group_state name="Place_final" group="arm">
+        <joint name="j2s6s200_joint_1" value="6.363213" />
+        <joint name="j2s6s200_joint_2" value="3.07202" />
+        <joint name="j2s6s200_joint_3" value="1.40840" />
+        <joint name="j2s6s200_joint_4" value="6.28237" />
+        <joint name="j2s6s200_joint_5" value="4.433662" />
+        <joint name="j2s6s200_joint_6" value="12.55657" />
+    </group_state>
     <group_state name="Open" group="gripper">
         <joint name="j2s6s200_joint_finger_1" value="0" />
         <joint name="j2s6s200_joint_finger_2" value="0" />
