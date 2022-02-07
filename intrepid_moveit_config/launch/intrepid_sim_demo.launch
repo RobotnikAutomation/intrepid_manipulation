@@ -6,7 +6,7 @@
   <arg name="db_path" default="$(find intrepid_moveit_config)/default_warehouse_mongo_db" />
 
   <!-- By default, we do not launch RViz -->
-  <arg name="rviz" default="true" />
+  <arg name="rviz" default="false" />
 
   <!-- By default, we are not in debug mode -->
   <arg name="debug" default="false" />
@@ -18,7 +18,7 @@
   <arg name="sim" default="true"/>
 
   <!-- Default joint states topic -->
-  <arg name="joint_states_ns" default="joint_states"/>
+  <arg name="joint_states_topic" default="joint_states"/>
 
   <!-- Default ROBOT namespace -->
   <arg name="ns" default="robot"/>
@@ -31,16 +31,9 @@
       <arg name="fake_execution" value="false"/>
       <arg name="info" value="true"/>
       <arg name="debug" value="$(arg debug)"/>
-      <arg name="joint_states_ns" value="$(arg joint_states_ns)"/>
+      <arg name="joint_states_topic" value="$(arg joint_states_topic)"/>
       <arg name="sim" value="$(arg sim)"/>
     </include>  
-
-    <!-- If RViz loading was enabled, start RViz -->
-    <include file="$(find intrepid_moveit_config)/launch/moveit_rviz.launch" if="$(arg rviz)">
-      <arg name="rviz_config" value="$(find intrepid_moveit_config)/launch/intrepid.rviz"/>
-      <arg name="debug" value="$(arg debug)"/>
-      <arg name="joint_states_ns" value="$(arg joint_states_ns)"/>
-    </include>	
 
     <!-- If database loading was enabled, start mongodb as well -->
     <include file="$(find intrepid_moveit_config)/launch/default_warehouse_db.launch" if="$(arg db)">
@@ -48,5 +41,13 @@
     </include>	
 
   </group>
+
+  <!-- If RViz loading was enabled, start RViz -->
+  <include file="$(find intrepid_moveit_config)/launch/moveit_rviz.launch" if="$(arg rviz)">
+    <arg name="rviz_config" value="$(find intrepid_moveit_config)/launch/intrepid.rviz"/>
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="ns" value="$(arg ns)"/>
+    <arg name="joint_states_topic" value="$(arg joint_states_topic)"/>
+  </include>	
 
 </launch>

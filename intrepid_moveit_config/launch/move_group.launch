@@ -19,7 +19,7 @@
   <arg name="max_safe_path_cost" default="1"/>
   <arg name="jiggle_fraction" default="0.05" />
   <arg name="publish_monitored_planning_scene" default="true"/>
-  <arg name="joint_states_ns" default="/joint_states"/>
+  <arg name="joint_states_topic" default="joint_states"/>
   <arg name="sim" default="true"/>
 
   <!-- load these non-default MoveGroup capabilities (space seperated) -->
@@ -117,7 +117,7 @@
     <param name="planning_scene_monitor/publish_transforms_updates" value="$(arg publish_monitored_planning_scene)" />
   
     <!-- Remap joint states topic -->
-    <remap from="/joint_states" to="$(arg joint_states_ns)" />
+    <remap from="/joint_states" to="$(arg joint_states_topic)" />
   </node>
 
 </launch>

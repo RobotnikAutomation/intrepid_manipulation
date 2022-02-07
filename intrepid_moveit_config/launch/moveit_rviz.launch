@@ -1,19 +1,24 @@
 <launch>
 
   <!-- Default joint states topic -->
-  <arg name="joint_states_ns" default="joint_states"/>
+  <arg name="joint_states_topic" default="joint_states"/>
+
+    <!-- Default ROBOT namespace -->
+  <arg name="ns" default="robot"/>
 
   <arg name="debug" default="false" />
   <arg unless="$(arg debug)" name="launch_prefix" value="" />
   <arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
 
   <arg name="rviz_config" default="" />
-  <arg     if="$(eval rviz_config=='')" name="command_args" value="" />
+  <arg     if="$(eval rviz_config=='')" name="command_args" value="-d $(find intrepid_moveit_config)/launch/intrepid.rviz" />
   <arg unless="$(eval rviz_config=='')" name="command_args" value="-d $(arg rviz_config)" />
 
-  <node name="$(anon rviz)" launch-prefix="$(arg launch_prefix)" pkg="rviz" type="rviz" respawn="false"
-        args="$(arg command_args)" output="screen">
-        <remap from="/joint_states" to="$(arg joint_states_ns)" />
-  </node>
+  <group ns="$(arg ns)">
+    <node name="$(anon rviz)" launch-prefix="$(arg launch_prefix)" pkg="rviz" type="rviz" respawn="false"
+          args="$(arg command_args)" output="screen">
+          <remap from="/joint_states" to="$(arg joint_states_topic)" />
+    </node>
+  </group> 
 
 </launch>
