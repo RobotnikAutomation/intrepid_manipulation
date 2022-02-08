@@ -273,4 +273,6 @@
     <disable_collisions link1="j2s6s200_wrist_rgbd_support_second_link" link2="j2s6s200_wrist_rgbd_link" reason="Adjacent" />
     <disable_collisions link1="j2s6s200_wrist_rgbd_support_second_link" link2="j2s6s200_wrist_rgbd_support_link" reason="Adjacent" />
     <disable_collisions link1="j2s6s200_wrist_rgbd_link" link2="j2s6s200_wrist_rgbd_support_link" reason="Adjacent" />
+    <disable_collisions link1="j2s6s200_link_finger_tip_1" link2="j2s6s200_link_finger_tip_2" reason="Adjacent" />
+
 </robot>
