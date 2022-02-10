@@ -8,7 +8,8 @@
   <arg name="ns" default="robot"/>
 
   <!-- Joint states topic -->
-  <arg name="joint_states_ns" default="joint_states"/>
+  <arg if="$(arg sim)" name="joint_states_ns" default="joint_states"/>
+  <arg unless="$(arg sim)" name="joint_states_ns" default="/j2s6s200_driver/out/joint_state"/>
 
   <!-- GPD input point-cloud pre-processing parameters -->
   <arg name="remove_table" default="true" doc="segment table plane from object"/> 
