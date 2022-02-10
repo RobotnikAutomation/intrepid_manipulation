@@ -1,27 +1,37 @@
 <?xml version="1.0"?>
 <launch>
 
+  <!-- By default we are in simulation  -->
+  <arg name="sim" default="true"/>
+
   <!-- Default ROBOT namespace -->
   <arg name="ns" default="robot"/>
 
   <!-- Joint states topic -->
   <arg name="joint_states_ns" default="joint_states"/>
 
-  <!-- GPD Server point-cloud pre-processing parameters -->
+  <!-- GPD input point-cloud pre-processing parameters -->
   <arg name="remove_table" default="true" doc="segment table plane from object"/> 
   <arg name="cartesian_limits" default="false" doc="specify cartesian limits on cloud in frame of optical link"/>
   <arg name="xyz_lower_limits" default="[-0.3, -0.3, 0.0]" doc="lower x,y,z cartesian limits on cloud"/>
   <arg name="xyz_upper_limits" default="[0.3, 0.3, 0.75]" doc="upper x,y,z cartesian limits on cloud"/>
 
-  <arg name="action_name" value="generate_grasps" doc="action name space"/>
-  <arg name="robot_base_frame" value="robot_base_footprint" doc="frame of the grasps sent to MTC"/> <!-- world / robot_base_footprint -->
-  <arg name="point_cloud_topic" value="merged_pcl/points" doc=" deep learning algorithm point cloud topic name"/>
-  <arg name="camera_in_pcl_topic" value="camera/depth/points" doc="point cloud topic name"/>
+  <!-- Robot base frame needed for MTC and GPD relative pose computing -->
+  <arg name="robot_base_frame" value="robot_base_footprint" doc="frame of the grasps sent to MTC"/> 
 
+  <!-- GPD Server + MTC action name -->
+  <arg name="action_name" value="generate_grasps" doc="action name space"/>
+
+  <!-- Point cloud ros topics -->
+  <arg name="merged_pcl_topic" value="merged_pcl/points" doc=" deep learning algorithm point cloud topic name"/>
+  <arg if="$(arg sim)" name="camera_pcl_topic" value="camera/depth/points" doc="point cloud topic name"/>
+  <arg unless="$(arg sim)" name="camera_pcl_topic" value="/filtered_pcl/points" doc="point cloud topic name"/>
+  
   <!-- file paths -->
   <arg name="robot_config" value="$(find intrepid_deep_grasp_demo)/config/jaco_description.yaml" doc="file path to robot configuration"/>
   <arg name="scene_config" value="$(find intrepid_deep_grasp_demo)/config/objects_config.yaml" doc="file path to environment configuration"/>
-  <arg name="camera_config" value="$(find intrepid_deep_grasp_demo)/config/camera_calib/gazebo_camera.yaml" doc="file path to camera configuration"/>
+  <arg if="$(arg sim)" name="camera_config" value="$(find intrepid_deep_grasp_demo)/config/camera_calib/gazebo_camera.yaml" doc="file path to camera configuration"/>
+  <arg unless="$(arg sim)" name="camera_config" value="$(find intrepid_deep_grasp_demo)/config/camera_calib/realsense_camera.yaml" doc="file path to camera configuration"/>
   <arg name="path_to_gpd_config" value="$(find intrepid_deep_grasp_demo)/config/gpd_config.yaml" doc="path to GPD config and gripper params file"/>
 
 
@@ -32,14 +42,15 @@
         <rosparam command="load" file="$(arg robot_config)"/>
         <rosparam command="load" file="$(arg scene_config)"/>
         <rosparam command="load" file="$(arg camera_config)"/>
-        <param name="point_cloud_topic" value="$(arg point_cloud_topic)"/>
-        <param name="camera_in_pcl_topic" value="$(arg camera_in_pcl_topic)"/>
-  <!--       <remap from="/joint_states" to="$(arg joint_states_ns)" /> -->
+        <param name="action_name" value="$(arg action_name)"/>
+        <param name="output_pcl_topic" value="$(arg merged_pcl_topic)"/>
+        <param name="input_pcl_topic" value="$(arg camera_pcl_topic)"/>
+        <!--<remap from="/joint_states" to="$(arg joint_states_ns)" /> -->
     </node>
 
     <!-- Grasp detection using GPD -->
     <node name="grasp_cloud_detection" pkg="moveit_task_constructor_gpd" type="grasp_cloud_detection" output="screen">
-      <param name="point_cloud_topic" value="$(arg point_cloud_topic)"/>
+      <param name="input_pcl_topic" value="$(arg merged_pcl_topic)"/>
       <rosparam command="load" file="$(arg camera_config)"/>
       <rosparam param="view_point">[0.0, 0.0, 0.0]</rosparam>
       <param name="action_name" value="$(arg action_name)"/>
