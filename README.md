@@ -6,19 +6,21 @@ Intrepid manipulation application demo for Kinova Jaco j2s6s200, built using dif
 
 # How to use application with simulated robot
 
-To launch robot gazebo simulation: 
+This repository can be used together with the RobotnikAutomation/intrepid_sim repository. Make sure to build both packages inside the same catkin workspace. 
 
-`roslaunch intrepid_simple_sim simulation.launch`
+To launch simulation: 
+
+`roslaunch intrepid_sim_bringup intrepid_complete.launch run_rviz:=false` 
 
 * ros_control is used to control the robot model in Gazebo (A Trajectory controller is used to provide interface for MoveIt!)
 
 To launch MoveIt's move_group node + RViz interface: 
 
-`roslaunch intrepid_moveit_config j2s6s200_gazebo_demo.launch`
+`roslaunch intrepid_moveit_config intrepid_moveit.launch sim:=true rviz:=true`
 
-To launch deep grasp manipulation application:
+To launch GPD deep grasp manipulation application:
 
-`roslaunch intrepid_deep_grasp_demo gpd_demo_gazebo.launch`
+`roslaunch intrepid_deep_grasp_demo gpd_manipulation.launch sim:=true`
 
 Use RViz's intrepid plugin to interact with application: 
  * Start Detection: Launches deep learning pick object action
@@ -44,7 +46,7 @@ This launch file launches:
 
 To launch MoveIt's move_group node + RViz interface: 
 
-`roslaunch j2s6s200_moveit_config j2s6s200_demo.launch`
+`roslaunch intrepid_moveit_config intrepid_moveit.launch sim:=false rviz:=true`
 
 * This also launches the joint_trajectory_action_server and gripper_command_action_server which are interfaces between MoveIt's commands and the robot's driver. 
 
@@ -54,7 +56,7 @@ To launch Moveit Servo node for teleoperation:
 
 To launch deep grasp manipulation application:
 
-`roslaunch intrepid_deep_grasp_demo gpd_demo.launch`
+`roslaunch intrepid_deep_grasp_demo gpd_manipulation.launch sim:=false`
 
 Use RViz's intrepid plugin to interact with application: 
  * Start Detection: Launches deep learning pick object action
