@@ -36,11 +36,11 @@ void DeepGraspDemo::rosReadParams()
   desired_constraint_name_ = "";
   readParam(pnh_, "moveit_constraint", desired_constraint_name_, desired_constraint_name_, required); 
 
-  camera_in_pcl_topic_ = "/camera/depth/points";
-  readParam(pnh_, "camera_in_pcl_topic", camera_in_pcl_topic_, camera_in_pcl_topic_, required); 
+  camera_in_pcl_topic_ = "";
+  readParam(pnh_, "input_pcl_topic", camera_in_pcl_topic_, camera_in_pcl_topic_, required); 
 
-  merged_out_pcl_topic_ = "/filtered_pcl/points";
-  readParam(pnh_, "point_cloud_topic", merged_out_pcl_topic_, merged_out_pcl_topic_, required); 
+  merged_out_pcl_topic_ = "filtered_pcl/points";
+  readParam(pnh_, "output_pcl_topic", merged_out_pcl_topic_, merged_out_pcl_topic_, required); 
 
   point_cloud_frame_ = "";
   readParam(pnh_, "camera_optical_frame", point_cloud_frame_, point_cloud_frame_, required); 
@@ -321,7 +321,10 @@ void DeepGraspDemo::readyState()
     rviz_text_msg.fg_color = set_text_color(feedback_color);
     overlay_text_pub.publish(rviz_text_msg);
 
-    scanObject();
+    if(!scanObject()){
+      switchToState(robotnik_msgs::State::FAILURE_STATE);
+      return;
+    }
 
     if (!pick_object_as_->isActive()) return;
 
@@ -381,7 +384,7 @@ void DeepGraspDemo::readyState()
             return;
           }
         }
-        //ros::Duration(1.0).sleep();
+        //
       }
 
 
@@ -535,7 +538,7 @@ void DeepGraspDemo::intrepid_gui_callback(const sensor_msgs::Joy& msg){
   }
 }
 
-void DeepGraspDemo::scanObject(){
+bool DeepGraspDemo::scanObject(){
 
   merged_cloud.reset(new pcl::PointCloud<pcl::PointXYZRGB>);
   filtered_merged_cloud.reset(new pcl::PointCloud<pcl::PointXYZRGB>);
@@ -545,22 +548,12 @@ void DeepGraspDemo::scanObject(){
   geometry_msgs::TransformStamped link_5_tf_msg;
 
   try{
-    look_pose_tf_msg = tfBuffer.lookupTransform(world_frame_,point_cloud_frame_,ros::Time::now(),ros::Duration(10.0));
+    look_pose_tf_msg = tfBuffer.lookupTransform(world_frame_,point_cloud_frame_,ros::Time::now(),ros::Duration(2.0));
   }
   catch(tf2::TransformException ex){
-    ROS_ERROR("Could not transform between camera cloud frame: %s and base frame: %s. Lookup Transform error: %s",point_cloud_frame_.c_str(), world_frame_.c_str());
-    switchToState(robotnik_msgs::State::FAILURE_STATE);
-    return;
+    ROS_ERROR("Could not transform between camera cloud frame: %s and base frame: %s.", point_cloud_frame_.c_str(), world_frame_.c_str());
+    return false;
   }
-
-/*   try{
-    link_5_tf_msg = tfBuffer.lookupTransform("j2s6s200_link_5",end_effector_frame_,ros::Time::now(),ros::Duration(10.0));
-  }
-  catch(tf2::TransformException ex){
-    ROS_ERROR("Could not transform between camera cloud frame: %s and base frame: %s. Lookup Transform error: %s","j2s6s200_link_5", world_frame_.c_str());
-    switchToState(robotnik_msgs::State::FAILURE_STATE);
-    return;
-  } */
 
   moveit_msgs::OrientationConstraint ocm;
   ocm.link_name = end_effector_frame_;
@@ -574,16 +567,6 @@ void DeepGraspDemo::scanObject(){
   moveit_msgs::Constraints orientation_constraint = moveit_msgs::Constraints();
   orientation_constraint.orientation_constraints.push_back(ocm);
 
-/*   ocm = moveit_msgs::OrientationConstraint ();
-  ocm.link_name = end_effector_frame_;
-  ocm.header.frame_id = "j2s6s200_link_5";
-  ocm.orientation = link_5_tf_msg.transform.rotation;
-  ocm.absolute_x_axis_tolerance = 1;
-  ocm.absolute_y_axis_tolerance = 1;
-  ocm.absolute_z_axis_tolerance = 1;
-  ocm.weight = 100.0;
-
-  test_constraints.orientation_constraints.push_back(ocm); */
   moveit_msgs::Constraints merged_constraint = kinematic_constraints::mergeConstraints(global_constraint,orientation_constraint);
   
   move_group_->setPathConstraints(merged_constraint);
@@ -591,30 +574,30 @@ void DeepGraspDemo::scanObject(){
   move_rel_cartesian(0, scan_move_linear_, 0, 0.0, 0, 0, merged_constraint);
   move_rel_cartesian(0, 0.0, 0, scan_move_angular_, 0, 0, merged_constraint);
   addPointCloud();
-  ros::Duration(1.0).sleep();
+  
   move_to_cartesian(look_pose.pose, merged_constraint);
-  ros::Duration(1.0).sleep();
+  
 
   move_rel_cartesian(0, -scan_move_linear_, 0, 0.0, 0, 0, merged_constraint);
   move_rel_cartesian(0, 0.0, 0, -scan_move_angular_, 0, 0, merged_constraint);
   addPointCloud();
-  ros::Duration(1.0).sleep();
+  
   move_to_cartesian(look_pose.pose, merged_constraint);
-  ros::Duration(1.0).sleep();
+  
 
   move_rel_cartesian(scan_move_linear_, 0, 0, 0, 0.0, 0, merged_constraint);
   move_rel_cartesian(0.0, 0, 0, 0, -scan_move_angular_, 0, merged_constraint);
   addPointCloud();
-  ros::Duration(1.0).sleep();
+  
   move_to_cartesian(look_pose.pose, merged_constraint);
-  ros::Duration(1.0).sleep();
+  
 
   move_rel_cartesian(-scan_move_linear_, 0, 0, 0, 0.0, 0, merged_constraint);
   move_rel_cartesian(0.0, 0, 0, 0, +scan_move_angular_, 0, merged_constraint);
   addPointCloud();
-  ros::Duration(1.0).sleep();
+  
   move_to_cartesian(look_pose.pose, merged_constraint);
-  ros::Duration(1.0).sleep();
+  
 
   addPointCloud();
 
@@ -638,15 +621,12 @@ void DeepGraspDemo::scanObject(){
 
   pass.filter(*passthrough_cloud);
 
-  std::cout << "HOLA" << std::endl;
-
   try{
     look_pose_tf_msg = tfBuffer.lookupTransform(point_cloud_frame_,world_frame_,ros::Time::now(),ros::Duration(10.0));
   }
   catch(tf2::TransformException ex){
-    ROS_ERROR("Could not transform between camera cloud frame: %s and base frame: %s. Lookup Transform error: %s",point_cloud_frame_.c_str(), world_frame_.c_str());
-    switchToState(robotnik_msgs::State::FAILURE_STATE);
-    return;
+    ROS_ERROR("Could not transform between camera cloud frame: %s and base frame: %s.",point_cloud_frame_.c_str(), world_frame_.c_str());
+    return false;
   }
 
   Eigen::Affine3d world_to_camera_ = tf2::transformToEigen(look_pose_tf_msg);
@@ -658,6 +638,8 @@ void DeepGraspDemo::scanObject(){
   sor.filter (*filtered_merged_cloud);
  
   publish_cloud_ = true;
+
+  return true;
 }
 
 void DeepGraspDemo::move_rel_cartesian(const double& x, const double& y, const double& z, const double& roll, const double& pitch, const double& yaw, const moveit_msgs::Constraints& constraint){
@@ -729,7 +711,7 @@ void DeepGraspDemo::addPointCloud(){
   geometry_msgs::TransformStamped current_pose_tf_msg;
 
   try{
-    current_pose_tf_msg = tfBuffer.lookupTransform(world_frame_,point_cloud_frame_,ros::Time::now(),ros::Duration(60.0));
+    current_pose_tf_msg = tfBuffer.lookupTransform(world_frame_,point_cloud_frame_,ros::Time::now(),ros::Duration(2));
   }
   catch(tf2::TransformException ex){
     ROS_ERROR("Could not transform between camera cloud frame: %s and base frame: %s. Lookup Transform error: %s",point_cloud_frame_.c_str(), world_frame_.c_str());

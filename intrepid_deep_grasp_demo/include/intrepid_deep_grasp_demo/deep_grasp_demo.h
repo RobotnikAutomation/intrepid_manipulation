@@ -180,7 +180,7 @@ protected:
   double allowed_fraction_success = 0.95;
   
   // Deep learning pickup object functionalities
-  void scanObject(); // Move end effector to scan object
+  bool scanObject(); // Move end effector to scan object
   double scan_move_linear_, scan_move_angular_; // Amount to move when scanning area
   geometry_msgs::Pose null_pose; // Define zero pose
 
