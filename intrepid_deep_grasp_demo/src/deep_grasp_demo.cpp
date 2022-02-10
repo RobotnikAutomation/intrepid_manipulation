@@ -708,18 +708,18 @@ void DeepGraspDemo::addPointCloud(){
 
   ROS_INFO_STREAM("Point cloud frame: " << point_cloud_frame_);
 
+  sensor_msgs::PointCloud2 current_point_cloud = cloud_in_msg;
+
   geometry_msgs::TransformStamped current_pose_tf_msg;
 
   try{
-    current_pose_tf_msg = tfBuffer.lookupTransform(world_frame_,point_cloud_frame_,ros::Time::now(),ros::Duration(2));
+    current_pose_tf_msg = tfBuffer.lookupTransform(world_frame_, point_cloud_frame_, current_point_cloud.header.stamp, ros::Duration(2));
   }
   catch(tf2::TransformException ex){
     ROS_ERROR("Could not transform between camera cloud frame: %s and base frame: %s. Lookup Transform error: %s",point_cloud_frame_.c_str(), world_frame_.c_str());
     switchToState(robotnik_msgs::State::FAILURE_STATE);
     return;
   }
-
-  sensor_msgs::PointCloud2 current_point_cloud = cloud_in_msg;
 
   Eigen::Affine3d world_to_camera_ = tf2::transformToEigen(current_pose_tf_msg);
 
