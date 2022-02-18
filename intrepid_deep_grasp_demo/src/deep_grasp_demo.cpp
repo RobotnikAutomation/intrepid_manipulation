@@ -109,6 +109,16 @@ int DeepGraspDemo::rosSetup()
   pick_object_as_->registerGoalCallback(boost::bind(&DeepGraspDemo::goalCB, this, std::string("pickup_object")));
   pick_object_as_->registerPreemptCallback(boost::bind(&DeepGraspDemo::preemptCB, this));
 
+  pickup_from_as_.reset(
+      new actionlib::SimpleActionServer<intrepid_manipulation_msgs::PickupFromAction>(pnh_, "pickup_from", autostart));
+  pickup_from_as_->registerGoalCallback(boost::bind(&DeepGraspDemo::goalCB, this, std::string("pickup_from")));
+  pickup_from_as_->registerPreemptCallback(boost::bind(&DeepGraspDemo::preemptCB, this));
+
+  place_on_as_.reset(
+      new actionlib::SimpleActionServer<intrepid_manipulation_msgs::PlaceOnAction>(pnh_, "place_on", autostart));
+  place_on_as_->registerGoalCallback(boost::bind(&DeepGraspDemo::goalCB, this, std::string("place_on")));
+  place_on_as_->registerPreemptCallback(boost::bind(&DeepGraspDemo::preemptCB, this));
+
   // Set PickupObject action client
   pick_object_ac_.reset(new DGDAC(nh_, "deep_grasp_demo/pickup_object", false));
   
@@ -184,6 +194,8 @@ int DeepGraspDemo::setup()
 
   // Start pick object action server
   pick_object_as_->start();
+  pickup_from_as_->start();
+  place_on_as_->start();
   RCOMPONENT_INFO_STREAM("Started server: pickup object");
 
   // Set pick object action client
@@ -269,7 +281,7 @@ void DeepGraspDemo::readyState()
 { 
   action_ready_flag_ = true;
 
-  if (pick_object_as_->isActive() == false)
+  if (pick_object_as_->isActive() == false && pickup_from_as_->isActive() == false && place_on_as_->isActive() == false)
   {
     ROS_INFO_THROTTLE(3, "I do not have a goal");
     return;
@@ -328,7 +340,7 @@ void DeepGraspDemo::readyState()
 
     if (!pick_object_as_->isActive()) return;
 
-/*     pick_object_result_.success = true;
+   /*     pick_object_result_.success = true;
     pick_object_result_.message = "Execution complete";
     pick_object_as_->setSucceeded(pick_object_result_); */
 
@@ -408,6 +420,19 @@ void DeepGraspDemo::readyState()
     }
         
   }   
+
+  if(pickup_from_as_->isActive() == true){     // Get desired goal and set as target
+    geometry_msgs::PoseStamped pose = pickup_from_goal_->pick_pose;
+    // Call move_to_pose function
+    pickup_from_pose(pose);
+  }   
+  
+  if(place_on_as_->isActive() == true){     // Get desired goal and set as target
+    geometry_msgs::PoseStamped pose = place_on_goal_->place_pose;
+    // Call move_to_pose function
+    place_on_pose(pose);
+  }   
+
 }
 
 void DeepGraspDemo::goalCB(const std::string& action)
@@ -418,7 +443,17 @@ void DeepGraspDemo::goalCB(const std::string& action)
     ROS_INFO_STREAM("IS ACTION SERVER ACTIVE " << pick_object_as_->isActive());
     ROS_INFO_STREAM("IS GOAL AVAILABLE " << pick_object_as_->isNewGoalAvailable());
     pick_object_as_->isPreemptRequested();
-    pick_object_goal_ = pick_object_as_->acceptNewGoal();}
+    pick_object_goal_ = pick_object_as_->acceptNewGoal();
+  }
+  if (action_ == "pickup_from"){
+    pickup_from_goal_ = pickup_from_as_->acceptNewGoal();
+    pickup_from_as_->isPreemptRequested();
+  }
+  if (action_ == "place_on"){
+    place_on_goal_ = place_on_as_->acceptNewGoal();
+    place_on_as_->isPreemptRequested();
+  }
+
 }
 
 void DeepGraspDemo::preemptCB()
@@ -427,6 +462,8 @@ void DeepGraspDemo::preemptCB()
   //result_.success = false;
   //result_.message = "Goal has been cancelled, stopping execution.";
   // set the action state to preempted
+  move_group_->stop();
+
   publish_computation_time = false;
   publish_cloud_ = false;
   //deep_pick_task->preemptTask();
@@ -438,6 +475,91 @@ void DeepGraspDemo::preemptCB()
   pick_object_result_.success = false;
   pick_object_result_.message = "Goal was cancelled";
   pick_object_as_->setPreempted(pick_object_result_);
+  pickup_from_as_->setPreempted();
+  place_on_as_->setPreempted();
+}
+
+
+void DeepGraspDemo::pickup_from_pose(geometry_msgs::PoseStamped pose){
+  
+  // Set pre-position goal
+  move_group_->setPoseTarget(pose);
+  // Plan to pre-position goal
+  success_plan = (move_group_->plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+  // If plan is successful execute trajectory
+  if(success_plan){
+    pickup_from_feedback_.state.clear();
+    pickup_from_feedback_.state = "Plan to desired pick position computed";
+    pickup_from_as_->publishFeedback(pickup_from_feedback_);
+
+    //Check if goal is active and move to pre-position goal
+    if (!pickup_from_as_->isActive()) return;
+    success_execute = (move_group_->execute(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+    //Check if execute is successful
+    if(success_execute){
+      pickup_from_feedback_.state.clear();
+      pickup_from_feedback_.state = "Moved end-effector to desired pick pose";
+      pickup_from_as_->publishFeedback(pickup_from_feedback_);
+
+      pickup_from_result_.success = true;
+      pickup_from_result_.message = "Move end-effector to desired pick pose action: SUCCESSFUL";
+      pickup_from_as_->setSucceeded(pickup_from_result_);
+      return;
+    }else{
+      pickup_from_result_.success = false;
+      pickup_from_result_.message = "Could not move end-effector to desired pick pose";
+      pickup_from_as_->setAborted(pickup_from_result_);
+      return;
+    }
+          
+  }else{
+    pickup_from_result_.success = false;
+    pickup_from_result_.message = "Could not plan to desired pick pose";
+    pickup_from_as_->setAborted(pickup_from_result_);
+    return;
+  }
+}
+
+void DeepGraspDemo::place_on_pose(geometry_msgs::PoseStamped pose){
+  
+  // Set pre-position goal
+  move_group_->setPoseTarget(pose);
+  // Plan to pre-position goal
+  success_plan = (move_group_->plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+  // If plan is successful execute trajectory
+  if(success_plan){
+    place_on_feedback_.state.clear();
+    place_on_feedback_.state = "Plan to desired place position computed";
+    place_on_as_->publishFeedback(place_on_feedback_);
+
+    //Check if goal is active and move to pre-position goal
+    if (!place_on_as_->isActive()) return;
+    success_execute = (move_group_->execute(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+    //Check if execute is successful
+    if(success_execute){
+      place_on_feedback_.state.clear();
+      place_on_feedback_.state = "Moved end-effector to desired place pose";
+      place_on_as_->publishFeedback(place_on_feedback_);
+
+      place_on_result_.success = true;
+      place_on_result_.message = "Move end-effector to desired place pose action: SUCCESSFUL";
+      place_on_as_->setSucceeded(place_on_result_);
+      return;
+    }else{
+      place_on_result_.success = false;
+      place_on_result_.message = "Could not move end-effector to desired place pose";
+      place_on_as_->setAborted(place_on_result_);
+      return;
+    }
+          
+  }else{
+    place_on_result_.success = false;
+    place_on_result_.message = "Could not plan to desired place pose";
+    place_on_as_->setAborted(place_on_result_);
+    return;
+  }
 }
 
 bool DeepGraspDemo::create_planning_scene()

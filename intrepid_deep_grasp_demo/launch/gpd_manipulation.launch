@@ -46,7 +46,7 @@
         <param name="action_name" value="$(arg action_name)"/>
         <param name="output_pcl_topic" value="$(arg merged_pcl_topic)"/>
         <param name="input_pcl_topic" value="$(arg camera_pcl_topic)"/>
-        <!--<remap from="/joint_states" to="$(arg joint_states_ns)" /> -->
+        <remap from="/joint_states" to="$(arg joint_states_ns)" />
     </node>
 
     <!-- Grasp detection using GPD -->

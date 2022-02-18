@@ -58,6 +58,8 @@
 #include <intrepid_deep_grasp_demo/deep_pick_place_task.h>
 #include <intrepid_deep_grasp_demo/deep_pick_task.h>
 #include <intrepid_manipulation_msgs/PickupObjectAction.h>
+#include <intrepid_manipulation_msgs/PickupFromAction.h>
+#include <intrepid_manipulation_msgs/PlaceOnAction.h>
 #include <actionlib_msgs/GoalID.h>
 
 
@@ -122,7 +124,7 @@ protected:
   virtual void goalCB(const std::string& action);
   virtual void preemptCB();
 
-  // Pick object Action server
+  // Pick object Deep learning Action server
   std::shared_ptr<actionlib::SimpleActionServer<intrepid_manipulation_msgs::PickupObjectAction>> pick_object_as_;
   actionlib::SimpleActionServer<intrepid_manipulation_msgs::PickupObjectAction>::GoalConstPtr pick_object_goal_;
   intrepid_manipulation_msgs::PickupObjectFeedback pick_object_feedback_; 
@@ -130,8 +132,23 @@ protected:
   ros::Publisher pick_goal_pub; //  Action server goal topic publisher
   ros::Publisher pick_cancel_pub; // Action server cancel topic publisher
 
+  // Pick and Place object Action servers
+  std::shared_ptr<actionlib::SimpleActionServer<intrepid_manipulation_msgs::PickupFromAction>> pickup_from_as_;
+  actionlib::SimpleActionServer<intrepid_manipulation_msgs::PickupFromAction>::GoalConstPtr pickup_from_goal_;
+  intrepid_manipulation_msgs::PickupFromFeedback pickup_from_feedback_; 
+  intrepid_manipulation_msgs::PickupFromResult pickup_from_result_;
+
+  std::shared_ptr<actionlib::SimpleActionServer<intrepid_manipulation_msgs::PlaceOnAction>> place_on_as_;
+  actionlib::SimpleActionServer<intrepid_manipulation_msgs::PlaceOnAction>::GoalConstPtr place_on_goal_;
+  intrepid_manipulation_msgs::PlaceOnFeedback place_on_feedback_; 
+  intrepid_manipulation_msgs::PlaceOnResult place_on_result_;
+
   // Pick object action client
   std::shared_ptr<DGDAC> pick_object_ac_;
+
+  // Manipulation functions
+  void pickup_from_pose(geometry_msgs::PoseStamped pose);
+  void place_on_pose(geometry_msgs::PoseStamped pose);
 
   // RVIZ Intrepid GUI PLUGIN
   ros::Subscriber intrepid_gui_sub; // Intrepid RViz GUI Plugin subscriber 
@@ -164,7 +181,7 @@ protected:
   moveit::planning_interface::MoveGroupInterfacePtr move_group_; // Move group interface
   moveit::planning_interface::PlanningSceneInterfacePtr planning_scene_interface_; // Planning scene interface
   planning_scene_monitor::PlanningSceneMonitorPtr planning_scene_monitor_; // Planning scene monitor
-
+  moveit::planning_interface::MoveGroupInterface::Plan plan;
   warehouse_ros::DatabaseConnection::Ptr conn_; // Moveit warehouse database connection
   bool create_planning_scene(); // Moveit planning scene upload function
 
@@ -178,6 +195,11 @@ protected:
   const double jump_threshold = 0.0; // Cartesian planner parameter
   const double eef_step = 0.005; // Cartesian planner parameter
   double allowed_fraction_success = 0.95;
+
+  double success_cartesian_plan;
+  bool success_plan;
+  bool success_move;
+  bool success_execute;
   
   // Deep learning pickup object functionalities
   bool scanObject(); // Move end effector to scan object
