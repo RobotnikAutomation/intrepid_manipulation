@@ -1,0 +1,14 @@
+# An action to place objects in a frame
+
+# The frame to place object
+geometry_msgs/PoseStamped place_pose
+---
+# If scanning was succesful
+bool success
+
+# Some informational message
+string message
+---
+
+# The internal state that the scan action currently is in
+string state

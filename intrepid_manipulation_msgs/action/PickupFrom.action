@@ -1,0 +1,14 @@
+# An action to pick objects from a frame
+
+# The frame pick object
+geometry_msgs/PoseStamped pick_pose
+---
+# If scanning was succesful
+bool success
+
+# Some informational message
+string message
+---
+
+# The internal state that the scan action currently is in
+string state
