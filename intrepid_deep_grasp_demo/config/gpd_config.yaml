@@ -40,7 +40,7 @@ weights_file = /home/maria/PROJECTS/deep_learning_ws/src/gpd/models/lenet/15chan
 #   sample_above_plane: only draws samples which do not belong to the table plane
 voxelize = 1
 voxel_size = 0.003
-remove_outliers = 1
+remove_outliers = 0 // ANTES 1
 workspace = -2.0 2.0 -2.0 2.0 -2.0 2.0
 # workspace = -2.0 2.0 -2.0 2.0 -2.0 2.0
 camera_position = 0 0 0
@@ -67,8 +67,8 @@ deepen_hand = 1
 #   workspace_grasps: dimensions of a cube centered at origin of point cloud; should be smaller than <workspace>
 min_aperture = 0.0
 max_aperture = 0.10
-workspace_grasps = -1.5 1.5 -1.5 1.5 -1.5 1.5
-# workspace_grasps = -2 2 -2 2 -2 2
+#workspace_grasps = -1.5 1.5 -1.5 1.5 -1.5 1.5
+workspace_grasps = -2 2 -2 2 -2 2
 
 
 
@@ -78,7 +78,7 @@ workspace_grasps = -1.5 1.5 -1.5 1.5 -1.5 1.5
 #   angle_thresh: angle in radians above which grasps are filtered
 filter_approach_direction = 1
 direction = 0 0 1
-thresh_rad = 2.0
+thresh_rad = 1.0
 
 # Clustering of grasps
 #   min_inliers: minimum number of inliers per cluster; set to 0 to turn off clustering
@@ -86,7 +86,7 @@ min_inliers = 0
 
 # Grasp selection
 #   num_selected: number of selected grasps (sorted by score)
-num_selected = 100
+num_selected = 25
 
 # Visualization
 #   plot_normals: plot the surface normals
