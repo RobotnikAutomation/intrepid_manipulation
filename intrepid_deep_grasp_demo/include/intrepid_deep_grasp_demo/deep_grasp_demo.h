@@ -113,6 +113,7 @@ protected:
 
   // ROS stuff
   std::shared_ptr<tf2_ros::Buffer> move_group_tf2_buffer_; // Move_group buffer
+  std::shared_ptr<tf2_ros::Buffer> move_group_gripper_tf2_buffer_; // Move_group buffer
   tf2_ros::Buffer tfBuffer; // TF buffer
   tf2_ros::TransformListener* tf_listener; // TF listener
 
@@ -179,6 +180,7 @@ protected:
   // Moveit Initialization stuff
   ros::WallDuration move_group_timeout_; 
   moveit::planning_interface::MoveGroupInterfacePtr move_group_; // Move group interface
+  moveit::planning_interface::MoveGroupInterfacePtr move_group_gripper_; // Move group interface
   moveit::planning_interface::PlanningSceneInterfacePtr planning_scene_interface_; // Planning scene interface
   planning_scene_monitor::PlanningSceneMonitorPtr planning_scene_monitor_; // Planning scene monitor
   moveit::planning_interface::MoveGroupInterface::Plan plan;

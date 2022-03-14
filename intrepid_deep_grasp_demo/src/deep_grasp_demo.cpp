@@ -81,6 +81,23 @@ int DeepGraspDemo::rosSetup()
     return rcomponent::ERROR;
   }
 
+  // Configure moveit move_group_gripper interface
+
+  move_group_gripper_tf2_buffer_.reset(new tf2_ros::Buffer);
+
+  try
+  {
+    move_group_gripper_.reset(
+        new moveit::planning_interface::MoveGroupInterface("gripper", move_group_gripper_tf2_buffer_, move_group_timeout_));
+  }
+  catch (const std::runtime_error& e)
+  {
+    RCOMPONENT_ERROR("Cannot create move group with group name: %s. Is MoveIt running? Group name is correct?",
+                     arm_group_name_.c_str());
+    RCOMPONENT_ERROR_STREAM("Exception: " << e.what());
+    return rcomponent::ERROR;
+  }
+
   // Configure moveit planning scene interface
 
   bool wait = true;
@@ -191,6 +208,9 @@ int DeepGraspDemo::setup()
   {
     return setup_result;
   }
+
+
+  move_group_gripper_->setMaxVelocityScalingFactor(1.0);
 
   // Start pick object action server
   pick_object_as_->start();
@@ -396,7 +416,7 @@ void DeepGraspDemo::readyState()
             return;
           }
         }
-        //
+
       }
 
 
@@ -481,7 +501,9 @@ void DeepGraspDemo::preemptCB()
 
 
 void DeepGraspDemo::pickup_from_pose(geometry_msgs::PoseStamped pose){
-  
+  move_group_gripper_->setStartStateToCurrentState ();
+  move_group_gripper_->setNamedTarget("Open");
+  move_group_gripper_->move();
   // Set pre-position goal
   move_group_->setPoseTarget(pose);
   // Plan to pre-position goal
@@ -505,6 +527,10 @@ void DeepGraspDemo::pickup_from_pose(geometry_msgs::PoseStamped pose){
       pickup_from_result_.success = true;
       pickup_from_result_.message = "Move end-effector to desired pick pose action: SUCCESSFUL";
       pickup_from_as_->setSucceeded(pickup_from_result_);
+        move_group_gripper_->setStartStateToCurrentState ();
+        move_group_gripper_->setNamedTarget("Close");
+        move_group_gripper_->move();
+
       return;
     }else{
       pickup_from_result_.success = false;
