@@ -40,7 +40,7 @@ int main(int argc, char** argv)
     moveit_msgs::Constraints constraints;
     //constraints.header.frame_id = "robot_base_link";
     moveit_msgs::OrientationConstraint orientation;
-    orientation.header.frame_id = "world";
+    orientation.header.frame_id = "robot_base_footprint";
     orientation.link_name = "j2s6s200_end_effector";
     orientation.orientation.x = 1;
     orientation.absolute_x_axis_tolerance = 0.1;
