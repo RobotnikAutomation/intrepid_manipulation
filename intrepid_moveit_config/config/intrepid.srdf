@@ -44,13 +44,22 @@
         <joint name="j2s6s200_joint_5" value="3.99635" />
         <joint name="j2s6s200_joint_6" value="6.28771" />
     </group_state>
-    <group_state name="Place_inter" group="arm">
+    <!--group_state name="Place_inter" group="arm">
         <joint name="j2s6s200_joint_1" value="4.75173" />
         <joint name="j2s6s200_joint_2" value="3.05192" />
         <joint name="j2s6s200_joint_3" value="1.40840" />
         <joint name="j2s6s200_joint_4" value="6.28238" />
         <joint name="j2s6s200_joint_5" value="4.43366" />
         <joint name="j2s6s200_joint_6" value="12.55657" />
+    </group_state-->
+[4.708484253594416, 3.258686254082288, 1.377081717528059, 6.241947322964145, 4.372280405996197, -0.002714711982523686,
+    <group_state name="Place_inter" group="arm">
+        <joint name="j2s6s200_joint_1" value="4.70848" />
+        <joint name="j2s6s200_joint_2" value="3.258686" />
+        <joint name="j2s6s200_joint_3" value="1.37708" />
+        <joint name="j2s6s200_joint_4" value="6.24194" />
+        <joint name="j2s6s200_joint_5" value="4.37228" />
+        <joint name="j2s6s200_joint_6" value="-0.0027" />
     </group_state>
     <group_state name="Place_final" group="arm">
         <joint name="j2s6s200_joint_1" value="6.363213" />
@@ -58,20 +67,20 @@
         <joint name="j2s6s200_joint_3" value="1.40840" />
         <joint name="j2s6s200_joint_4" value="6.28237" />
         <joint name="j2s6s200_joint_5" value="4.433662" />
-        <joint name="j2s6s200_joint_6" value="12.55657" />
+        <joint name="j2s6s200_joint_6" value="-0.00271" />
     </group_state>
     <group_state name="Open" group="gripper">
         <joint name="j2s6s200_joint_finger_1" value="0" />
         <joint name="j2s6s200_joint_finger_2" value="0" />
     </group_state>
     <group_state name="Close" group="gripper">
-        <joint name="j2s6s200_joint_finger_1" value="1.33" />
-        <joint name="j2s6s200_joint_finger_2" value="1.33" />
+        <joint name="j2s6s200_joint_finger_1" value="1.50" /> <!--1.33-->
+        <joint name="j2s6s200_joint_finger_2" value="1.50" />
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="gripper" parent_link="j2s6s200_end_effector" group="gripper" />
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
-    <virtual_joint name="world_to_base_virtual_joint" type="fixed" parent_frame="world" child_link="robot_base_footprint" />
+    <!--virtual_joint name="world_to_base_virtual_joint" type="fixed" parent_frame="world" child_link="robot_base_footprint" /-->
     <!--PASSIVE JOINT: Purpose: this element is used to mark joints that are not actuated-->
     <passive_joint name="j2s6s200_joint_finger_tip_1" />
     <passive_joint name="j2s6s200_joint_finger_tip_2" />
