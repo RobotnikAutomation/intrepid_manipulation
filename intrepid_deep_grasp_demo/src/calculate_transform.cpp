@@ -100,13 +100,13 @@ int main(int argc, char** argv)
   geometry_msgs::Pose link_5_to_cam_op, cam_base_to_cam_op;
   tf::Transform link_5_to_cam_op_tf, cam_base_to_cam_op_tf;
 
-  link_5_to_cam_op.position.x = 0.052067;
-  link_5_to_cam_op.position.y = 0.0812165;
-  link_5_to_cam_op.position.z = 0.0324663;
-  link_5_to_cam_op.orientation.x = 0.516911;
-  link_5_to_cam_op.orientation.y = -0.494795;
-  link_5_to_cam_op.orientation.z = -0.514611;
-  link_5_to_cam_op.orientation.w = -0.472394;
+  link_5_to_cam_op.position.x = 0.043414;
+  link_5_to_cam_op.position.y = 0.0752166;
+  link_5_to_cam_op.position.z = 0.0315496;
+  link_5_to_cam_op.orientation.x = -0.492943;
+  link_5_to_cam_op.orientation.y = 0.517356;
+  link_5_to_cam_op.orientation.z = 0.500177;
+  link_5_to_cam_op.orientation.w = 0.489052;
 
   cam_base_to_cam_op.position.x = -0.001;
   cam_base_to_cam_op.position.y = 0.015;
