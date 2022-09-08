@@ -12,7 +12,7 @@
   <arg name="debug" default="false" />
 
   <!-- By default, we won't load or override the robot_description -->
-  <arg name="load_robot_description" default="false"/>
+  <arg name="load_robot_description" default="true"/>
 
   <!-- By default, we are in simulation -->
   <arg name="sim" default="true"/>
@@ -23,9 +23,10 @@
 
   <!-- Default ROBOT namespace -->
   <arg name="ns" default="robot"/>
-
-  <group ns="$(arg ns)">
-
+ 
+  <!--remap from="robot_description" to="/robot/robot_description"/-->
+  <!--remap from="/robot/robot_description_semantic" to="robot_description_semantic"/-->
+	
     <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
     <include file="$(find intrepid_moveit_config)/launch/move_group.launch">
       <arg name="allow_trajectory_execution" value="true"/>
@@ -34,6 +35,7 @@
       <arg name="debug" value="$(arg debug)"/>
       <arg name="joint_states_topic" value="$(arg joint_states_topic)"/>
       <arg name="sim" value="$(arg sim)"/>
+      <arg name="load_robot_description" value="$(arg load_robot_description)"/>	
     </include>  
 
     <!-- If database loading was enabled, start mongodb as well -->
@@ -55,7 +57,7 @@
       </node>
     </group>
 
-  </group>
+
 
   <!-- If RViz loading was enabled, start RViz -->
   <include file="$(find intrepid_moveit_config)/launch/moveit_rviz.launch" if="$(arg rviz)">
