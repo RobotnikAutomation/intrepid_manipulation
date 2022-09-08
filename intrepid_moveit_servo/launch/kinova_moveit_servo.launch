@@ -1,6 +1,6 @@
 <launch>
   <node name="servo_server" pkg="moveit_servo" type="servo_server" output="screen" >
     <param name="parameter_ns" type="string" value="optional_parameter_namespace" />
-    <rosparam ns="optional_parameter_namespace" command="load" file="$(find intrepid_moveit_servo)/config/sim_kinova_robot_config.yaml" />
+    <rosparam ns="optional_parameter_namespace" command="load" file="$(find intrepid_moveit_servo)/config/kinova_robot_config.yaml" />
   </node>
 </launch>
