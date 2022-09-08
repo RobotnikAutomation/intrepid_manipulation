@@ -2,13 +2,11 @@
 <launch>
   
   <include file="$(find kinova_bringup)/launch/kinova_robot_j2s6s200.launch"/>
-  <include file="$(find robotnik_pad)/launch/robotnik_pad.launch"/>
- <!--  <include file="$(find intrepid_moveit_config)/launch/j2s6s200_demo.launch"/> -->
-<!--   <include file="$(find kinova_moveit_servo)/launch/kinova_moveit_servo.launch"/> -->
+  <!--include file="$(find robotnik_pad)/launch/robotnik_pad.launch"/-->
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch"/>
   <include file="$(find intrepid_deep_grasp_demo)/launch/republish_filtered_cloud.launch">
     <arg name="subscribed_topic" value="/camera/depth/color/points"/>
     <arg name="published_topic" value="/filtered_pcl/points"/>
   </include>  
-  <include file="$(find realsense2_camera)/launch/rs_camera.launch"/>
 
 </launch>
