@@ -36,7 +36,7 @@
   <arg name="path_to_gpd_config" value="$(find intrepid_deep_grasp_demo)/config/gpd_config.yaml" doc="path to GPD config and gripper params file"/>
 
 
-  <group ns="$(arg ns)">
+  
 
     <!-- Run MTC pick and place -->
     <node name="deep_grasp_demo" pkg="intrepid_deep_grasp_demo" type="intrepid_deep_grasp_demo_node" output="screen">
@@ -63,6 +63,6 @@
       <param name="remove_table" value="$(arg remove_table)"/> 
     </node>
 
-  </group>
+  
 
 </launch>
