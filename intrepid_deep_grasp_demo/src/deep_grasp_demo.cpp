@@ -520,6 +520,15 @@ void DeepGraspDemo::pickup_from_pose(geometry_msgs::PoseStamped pose){
 
     //Check if execute is successful
     if(success_execute){
+      move_group_gripper_->setStartStateToCurrentState ();
+      move_group_gripper_->setNamedTarget("Close");
+      move_group_gripper_->move();
+      move_group_->setNamedTarget("Look");
+      bool success_move = (move_group_->move() == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+      if(success_move){
+       move_group_->setNamedTarget("Place_final");
+       success_move = (move_group_->move() == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+      }
       pickup_from_feedback_.state.clear();
       pickup_from_feedback_.state = "Moved end-effector to desired pick pose";
       pickup_from_as_->publishFeedback(pickup_from_feedback_);
@@ -527,9 +536,8 @@ void DeepGraspDemo::pickup_from_pose(geometry_msgs::PoseStamped pose){
       pickup_from_result_.success = true;
       pickup_from_result_.message = "Move end-effector to desired pick pose action: SUCCESSFUL";
       pickup_from_as_->setSucceeded(pickup_from_result_);
-        move_group_gripper_->setStartStateToCurrentState ();
-        move_group_gripper_->setNamedTarget("Close");
-        move_group_gripper_->move();
+
+
 
       return;
     }else{
@@ -548,6 +556,9 @@ void DeepGraspDemo::pickup_from_pose(geometry_msgs::PoseStamped pose){
 }
 
 void DeepGraspDemo::place_on_pose(geometry_msgs::PoseStamped pose){
+
+      move_group_->setNamedTarget("Look");
+      bool success_move = (move_group_->move() == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   
   // Set pre-position goal
   move_group_->setPoseTarget(pose);
@@ -565,6 +576,13 @@ void DeepGraspDemo::place_on_pose(geometry_msgs::PoseStamped pose){
 
     //Check if execute is successful
     if(success_execute){
+      move_group_gripper_->setStartStateToCurrentState ();
+      move_group_gripper_->setNamedTarget("Open");
+      move_group_gripper_->move(); 
+
+      move_group_->setNamedTarget("Home");
+      success_move = (move_group_->move() == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+	 
       place_on_feedback_.state.clear();
       place_on_feedback_.state = "Moved end-effector to desired place pose";
       place_on_as_->publishFeedback(place_on_feedback_);
